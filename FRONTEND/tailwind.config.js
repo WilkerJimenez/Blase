@@ -5,6 +5,10 @@ module.exports = {
   ],
   theme: {
     extend: {},
+    fontFamily: {
+      text: ['Nunito'],
+      textShow: ['Gabarito'],
+    },
   },
   plugins: [],
 }
