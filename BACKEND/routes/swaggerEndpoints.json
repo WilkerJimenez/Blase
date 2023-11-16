@@ -1,0 +1,67 @@
+{"swagger": "2.0",
+    "host": "localhost:8080",
+    "basePath": "/api",
+    "schemes": [
+      "http"
+    ],
+    "consumes": [
+      "application/json"
+    ],
+    "produces": [
+      "application/json"
+    ],
+    "paths": {
+      "/registrar": {
+        "post": {
+          "summary": "Registrar usuario con firebase auth",
+          "tags": [
+            "Registrar"
+          ],
+          "operationId": "regis",
+          "deprecated": false,
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "Body",
+              "in": "body",
+              "required": true,
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/regisRequest"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "headers": {}
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "regisRequest": {
+        "title": "regisRequest",
+        "example": {
+          "email": "abc@xyz.com",
+          "password": "abc@123"
+        },
+        "type": "object",
+        "properties": {
+          "Email": {
+            "type": "string"
+          },
+          "Password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "Email",
+          "Password"
+        ]
+      }
+    }
+  }

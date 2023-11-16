@@ -1,23 +1,17 @@
 const swaggerJs = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('../../routes/swaggerEndpoints.json');
 
 const apiSpecs = {
-    definition: {
-        openapi: '3.0.0',
-        info: { title: 'BlaseREST', version: '1.0.0' }
+    swaggerOptions: {
+        url: "/api/swaggerEndpoints.json",
     },
-    apis: ['../../routes/routes.js'],
 };
 
-const swaggerSpec = swaggerJs(apiSpecs);
-
 const docs = (app, port) => {
-    app.use('/blase/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-    app.get('/blase/docs.json', (req, res) => {
-        res.setHeader('Content/Type', 'application/json');
-        res.send(swaggerSpec);
-    });
-    console.log(`Swagger: http://localhost:${port}/blase/docs`)
+    app.use('/api/docs', swaggerUi.serveFiles(null, apiSpecs), swaggerUi.setup(null, apiSpecs));
+    app.get("/api/swaggerEndpoints.json", (req, res) => res.json(swaggerDocument));
+    console.log(`Swagger: http://localhost:${port}/api/docs`)
 };
 module.exports = {
     docs
