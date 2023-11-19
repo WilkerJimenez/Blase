@@ -1,9 +1,10 @@
-const admin = require('firebase-admin');
-const credentials = require('./blaseKey.json')
-admin.initializeApp({
-    credential: admin.credential.cert(credentials)
-});
+const firebaseConfig = require('../dependencies/firebaseConfig')
+const firebaseApp = require('firebase/app')
+const auth = require('firebase/auth');
+
+firebaseApp.initializeApp(firebaseConfig);
 
 module.exports = {
-    admin
+    firebaseApp,
+    auth
 }

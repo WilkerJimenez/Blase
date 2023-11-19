@@ -36,7 +36,7 @@ yarn-error.log
 /libpeerconnection.log
 testem.log
 /typings
-/src/dependencies/blaseKey.json
+/src/dependencies/firebaseConfig.js
 
 # System files
 .DS_Store

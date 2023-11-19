@@ -1,67 +1,166 @@
-{"swagger": "2.0",
-    "host": "localhost:8080",
-    "basePath": "/api",
-    "schemes": [
-      "http"
-    ],
-    "consumes": [
-      "application/json"
-    ],
-    "produces": [
-      "application/json"
-    ],
-    "paths": {
-      "/registrar": {
-        "post": {
-          "summary": "Registrar usuario con firebase auth",
-          "tags": [
-            "Registrar"
-          ],
-          "operationId": "regis",
-          "deprecated": false,
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-            {
-              "name": "Body",
-              "in": "body",
-              "required": true,
-              "description": "",
-              "schema": {
-                "$ref": "#/definitions/regisRequest"
-              }
+{
+  "swagger": "2.0",
+  "host": "localhost:8080",
+  "basePath": "/api",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/registrar": {
+      "post": {
+        "summary": "Registrar usuario con firebase auth",
+        "tags": [
+          "Registrar"
+        ],
+        "operationId": "regis",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/regisRequest"
             }
-          ],
-          "responses": {
-            "200": {
-              "description": "OK",
-              "headers": {}
-            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {}
           }
         }
       }
     },
-    "definitions": {
-      "regisRequest": {
-        "title": "regisRequest",
-        "example": {
-          "email": "abc@xyz.com",
-          "password": "abc@123"
-        },
-        "type": "object",
-        "properties": {
-          "Email": {
-            "type": "string"
-          },
-          "Password": {
-            "type": "string"
+    "/registrarG": {
+      "get": {
+        "summary": "Registrar usuario con Google",
+        "tags": [
+          "RegistrarG"
+        ],
+        "operationId": "regisG",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {}
           }
-        },
-        "required": [
-          "Email",
-          "Password"
-        ]
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "summary": "Obtener usuario de firebase auth",
+        "tags": [
+          "Login"
+        ],
+        "operationId": "login",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/loginRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/logout": {
+      "get": {
+        "summary": "Cerrar Sesion",
+        "tags": [
+          "Logout"
+        ],
+        "operationId": "logout",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {}
+          }
+        }
       }
     }
+  },
+  "definitions": {
+    "regisRequest": {
+      "title": "regisRequest",
+      "example": {
+        "userName": "locksly011",
+        "email": "abc@xyz.com",
+        "password": "abc@123",
+        "passConfirmation": "abc@123"
+      },
+      "type": "object",
+      "properties": {
+        "userName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "passConfirmation": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "userName",
+        "email",
+        "password",
+        "passConfirmation"
+      ]
+    },
+    "loginRequest": {
+      "title": "loginRequest",
+      "example": {
+        "email": "abc@xyz.com",
+        "password": "abc@123"
+      },
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "email",
+        "password"
+      ]
+    }
   }
+}
