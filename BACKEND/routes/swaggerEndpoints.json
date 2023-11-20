@@ -43,7 +43,7 @@
       }
     },
     "/registrarG": {
-      "get": {
+      "post": {
         "summary": "Registrar usuario con Google",
         "tags": [
           "RegistrarG"

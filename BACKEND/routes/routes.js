@@ -16,6 +16,6 @@ router
 
     router
     .route("/registrarG")
-    .get(registrar.signinWithGoogle)
+    .post(registrar.signinWithGoogle)
 
 module.exports = router;
