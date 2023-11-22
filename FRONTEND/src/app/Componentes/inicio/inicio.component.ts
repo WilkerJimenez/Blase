@@ -1,10 +1,7 @@
 import { Component, HostListener } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'inicio',
-  standalone: true,
-  imports: [CommonModule],
   templateUrl: './inicio.component.html',
   styleUrl: './inicio.component.css'
 })
