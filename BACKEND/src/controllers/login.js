@@ -11,7 +11,11 @@ const login = async (req, res) => {
         .then(userCredentials => {
             res.json(userCredentials)
         }).catch(error => {
-            res.send(error)
+            if (error.code === "auth/invalid-login-credentials") {
+                res.send(400)
+            }else{
+                res.send(502)
+            }
         });
 }
 

@@ -12,10 +12,6 @@ import { FormsModule } from '@angular/forms';
 @NgModule({
     declarations: [
         AppComponent,
-        LoginComponent,
-        InicioComponent,
-        RegistrarComponent,
-        AuthContainerComponent,
         
     ],
     providers: [],
@@ -24,6 +20,10 @@ import { FormsModule } from '@angular/forms';
         BrowserModule,
         FormsModule,
         AppRoutingModule,
+        LoginComponent,
+        InicioComponent,
+        RegistrarComponent,
+        AuthContainerComponent,
     ]
 })
 export class AppModule { }

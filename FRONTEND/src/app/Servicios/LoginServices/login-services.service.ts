@@ -15,6 +15,6 @@ export class LoginServicesService {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
-    con.requestMethod()
+    return con.requestMethod();
   }
 }

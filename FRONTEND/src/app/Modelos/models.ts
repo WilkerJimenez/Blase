@@ -4,7 +4,7 @@ export interface userModel {
 }
 
 export interface regisModel {
-    email: '',
-    password: '',
-    passConfirmation: ''
+    userName:string,
+    email:string,
+    password:string
 }

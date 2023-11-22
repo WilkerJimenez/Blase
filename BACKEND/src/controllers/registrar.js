@@ -5,19 +5,13 @@ const registrar = async (req, res) => {
         displayName: req.body.userName,
         email: req.body.email,
         password: req.body.password,
-        passConfirmation: req.body.passConfirmation,
     }
-
-    if (user.passConfirmation != user.password) {
-        res.send("Las contraseñas son diferentes")
-    } else {
-        await auth.createUserWithEmailAndPassword(auth.getAuth(), user.email, user.password)
-            .then(userCredentials => {
-                res.json(userCredentials)
-            }).catch(error => {
-                res.send(error)
-            });
-    }
+    await auth.createUserWithEmailAndPassword(auth.getAuth(), user.email, user.password)
+        .then(userCredentials => {
+            res.json(userCredentials)
+        }).catch(error => {
+            res.send(error)
+        });
 }
 
 const signinWithGoogle = async (req, res) => {

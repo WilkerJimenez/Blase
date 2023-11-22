@@ -6,8 +6,11 @@
     </div>
     <div class="bg-[#fff] flex justify-center border-l-2 items-center">
         <div class="w-96">
-            <div class="font-textShow text-start text-4xl text-[#636aff] font-bold pb-4">Inicia Sesion</div>
-            <login></login>
+            @if (loginShow === true) {
+                <login (emitterLog)="hide($event)"></login>
+            }@else {
+                <registrar (emitterReg)="hide($event)"></registrar>
+            }
         </div>
     </div>
 </div>

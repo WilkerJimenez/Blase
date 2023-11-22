@@ -1,1 +1,50 @@
-<p>registrar works!</p>
+<style>
+    input:focus {
+        outline: none;
+    }
+</style>
+<div>
+    <div class="font-textShow text-start text-4xl text-[#636aff] font-bold pb-4">Registrate</div>
+    <form ngNativeValidate class="text-lg" (submit)="onSubmitRegis()" action="">
+        <div class="grid grid-rows-4 gap-4 border-b-2 border-[#ccc] pb-10">
+            <div>
+                <span class="text-base font-text font-semibold">Nombre de usuario </span>
+                <span class="text-base font-text font-bold text-red-600">*</span>
+                <input [(ngModel)]="body.userName" class="w-full border p-1 hover:border-b-[#68cccc] rounded focus:border-b-[#68cccc] duration-200"
+                    type="text" required name="userName" id="">
+            </div>
+            <div>
+                <span class="text-base font-text font-semibold">Correo electronico </span>
+                <span class="text-base font-text font-bold text-red-600">*</span>
+                <input [(ngModel)]="body.email" class="w-full border p-1 hover:border-b-[#68cccc] rounded focus:border-b-[#68cccc] duration-200"
+                    type="email" name="email" required id="">
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <span class="text-base font-text font-semibold">Contraseña </span>
+                    <span class="text-base font-text font-bold text-red-600">*</span>
+                    <input [(ngModel)]="body.password"
+                        class="w-full border p-1 hover:border-b-[#68cccc] rounded focus:border-b-[#68cccc] duration-200"
+                        type="password" required name="pass" id="">
+                </div>
+                <div>
+                    <span class="text-base font-text font-semibold">Confirmar contraseña </span>
+                    <span class="text-base font-text font-bold text-red-600">*</span>
+                    <input [(ngModel)]="passConfirm"
+                        class="w-full border p-1 hover:border-b-[#68cccc] rounded focus:border-b-[#68cccc] duration-200"
+                        type="password" required name="passConfirm" id="">
+                </div>
+            </div>
+            @if (errorMsg) {
+            <span class="font-normal text-base text-[#ea4335]">{{errorMsg}}</span>
+            }
+            <div class="grid grid-cols-2 w-25 items-center justify-items-center font-textShow">
+                <a (click)="hideRegis()" class="text-[#959494] opacity-50 hover:opacity-100 duration-200"
+                    style="cursor: pointer;">Volver al login</a>
+                <input
+                    class="hover:drop-shadow-md duration-200 w-full bg-[#382454] text-white font-bold p-2 rounded-sm uppercase"
+                    type="submit" value="Registrarme" style="cursor: pointer;">
+            </div>
+        </div>
+    </form>
+</div>
