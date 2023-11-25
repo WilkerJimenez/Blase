@@ -9,13 +9,21 @@ export class RestApiCon {
     }
 
     async requestMethod() {
+        let response = {
+            body: {},
+            status: 0
+        };
         await fetch(`${this.url}/${this.endpoint}`, this.config)
             .then(data => {
-                return data.status;
+                response.status = data?.status
+                return data.json();
+            }).then(data => {
+                response.body = data;
             })
             .catch(error => {
                 console.log(error)
             })
+        return response;
     }
 
 }

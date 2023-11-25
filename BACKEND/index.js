@@ -12,7 +12,6 @@ app.use(function(req, res, next) {
   });
 app.use("/api", routes);
 
-
 app.listen(port, () => {
     console.log(`Puerto ${port} con vida`);
     docs(app, port);

@@ -3,6 +3,7 @@ import { LoginServicesService } from '../../Servicios/LoginServices/login-servic
 import { userModel } from 'src/app/Modelos/models';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'login',
@@ -13,8 +14,9 @@ import { FormsModule } from '@angular/forms';
 })
 export class LoginComponent {
   @Output() emitterLog = new EventEmitter<boolean>();
+  private router: Router = new Router;
   errorMsg: string = "";
-  endpoint = "api/login"
+  private endpoint = "api/login"
   log = new LoginServicesService()
   body: userModel = {
     email: '',
@@ -26,8 +28,16 @@ export class LoginComponent {
       this.errorMsg = "Rellene los campos faltantes.";
       return;
     }
-    let status = await this.log.logIn(this.endpoint, this.body);
-    console.log(status)
+    let result = await this.log.logIn(this.endpoint, this.body);
+    if (result?.status === 200) {
+      console.log(result.body);
+      localStorage.setItem("usuario", JSON.stringify(result.body));
+      this.router.navigate(['/home']);
+    } else if (result?.status === 400) {
+      this.errorMsg = "El usuario no existe."
+    } else if (result?.status === 502) {
+      this.errorMsg = "Ha ocurrido un error."
+    }
   }
 
   hideLogin() {

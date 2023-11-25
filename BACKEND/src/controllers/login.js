@@ -1,4 +1,3 @@
-const { admin } = require('../dependencies/dependencies')
 const { auth } = require('../dependencies/dependencies')
 
 const login = async (req, res) => {
@@ -12,9 +11,9 @@ const login = async (req, res) => {
             res.json(userCredentials)
         }).catch(error => {
             if (error.code === "auth/invalid-login-credentials") {
-                res.send(400)
+                res.sendStatus(400)
             }else{
-                res.send(502)
+                res.sendStatus(502)
             }
         });
 }
