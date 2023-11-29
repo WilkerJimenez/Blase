@@ -45,6 +45,7 @@ export class LoginComponent {
     let result = await this.log.logInG();
     if (result?.status == 200) {
       console.log(result.body?.user);
+      localStorage.setItem("usuario", JSON.stringify(result.body?.user))
       this.router.navigate(['/home']);
     } else {
 

@@ -1,0 +1,11 @@
+
+.borderAnm:after{
+  display:block;
+  content: '';
+  border-radius: solid 3px #019fb6;  
+  transform: scaleY(0);  
+  transition: transform 250ms ease-in-out;
+}
+.borderAnm:hover:after {
+    transform: scaleY(1);
+}
