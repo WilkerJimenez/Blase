@@ -2,11 +2,17 @@ const { auth } = require('../dependencies/dependencies')
 const { admin } = require('../dependencies/dependencies')
 
 const verifySession = async (req, res) => {
-    const idToken = req.idToken;
-    admin.auth().verifyIdToken(idToken).then(() => {
-        res.sendStatus(200);
+    const IdToken = req.body.IdToken;
+    let checkRevoked = true;
+
+    admin.auth().verifyIdToken(IdToken, checkRevoked).then(result => {
+        res.sendStatus(200)
     }).catch(error => {
-        res.send(error)
+        if (error.code === 'auth/id-token-expired') {
+            res.sendStatus(401)
+        } else {
+            res.sendStatus(502)
+        }
     });
 }
 

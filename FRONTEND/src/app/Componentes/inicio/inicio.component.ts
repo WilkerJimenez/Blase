@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, HostListener } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'inicio',
@@ -9,6 +10,7 @@ import { Component, HostListener } from '@angular/core';
   styleUrl: './inicio.component.css'
 })
 export class InicioComponent {
+  router = new Router;
   @HostListener('document:mousemove', ['$event'])
   onMouseMove(e: any) {
     const btn = document.querySelector<HTMLElement>('.mouse-cursor-gradient-tracking');
@@ -17,5 +19,9 @@ export class InicioComponent {
     let y = e.clientY - rect.top;
     btn?.style.setProperty('--x', x + 'px');
     btn?.style.setProperty('--y', y + 'px');
+  }
+
+  onClick() {
+    this.router.navigate(['/auth'])
   }
 }

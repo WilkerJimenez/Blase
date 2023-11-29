@@ -8,3 +8,7 @@ export interface regisModel {
     email:string,
     password:string
 }
+
+export interface authModel {
+    IdToken:string,
+}

@@ -8,6 +8,10 @@ router
     .post(login.login)
 
 router
+    .route("/loginG")
+    .post(login.signinWithGoogle)
+
+router
     .route("/logout")
     .get(login.logOut)
 
@@ -18,9 +22,5 @@ router
 router
     .route("/registrar")
     .post(registrar.registrar)
-
-    router
-    .route("/registrarG")
-    .post(registrar.signinWithGoogle)
 
 module.exports = router;

@@ -17,11 +17,12 @@ export class LoginComponent {
   private router: Router = new Router;
   errorMsg: string = "";
   private endpoint = "api/login"
-  log = new LoginServicesService()
   body: userModel = {
     email: '',
     password: ''
   };
+
+  constructor(private log: LoginServicesService) { }
 
   async onSubmitLog() {
     if (this.body.email == '' || this.body.password == '') {
@@ -30,12 +31,23 @@ export class LoginComponent {
     }
     let result = await this.log.logIn(this.endpoint, this.body);
     if (result?.status === 200) {
-      console.log(result.body);
-      localStorage.setItem("usuario", JSON.stringify(result.body));
+      console.log(result.body?.user);
+      localStorage.setItem("usuario", JSON.stringify(result.body?.user));
       this.router.navigate(['/home']);
     } else if (result?.status === 400) {
       this.errorMsg = "El usuario no existe."
     } else if (result?.status === 502) {
+      this.errorMsg = "Ha ocurrido un error."
+    }
+  }
+
+  async onSubmitG() {
+    let result = await this.log.logInG();
+    if (result?.status == 200) {
+      console.log(result.body?.user);
+      this.router.navigate(['/home']);
+    } else {
+
       this.errorMsg = "Ha ocurrido un error."
     }
   }

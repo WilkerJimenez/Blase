@@ -9,8 +9,8 @@ export class RestApiCon {
     }
 
     async requestMethod() {
-        let response = {
-            body: {},
+        let response:{status:number, body:any} = {
+            body: null,
             status: 0
         };
         await fetch(`${this.url}/${this.endpoint}`, this.config)

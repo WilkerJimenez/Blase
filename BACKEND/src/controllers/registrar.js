@@ -14,16 +14,6 @@ const registrar = async (req, res) => {
         });
 }
 
-const signinWithGoogle = async (req, res) => {
-    const provider = new auth.GoogleAuthProvider();
-    auth.signInWithPopup(auth.getAuth(), provider).then(userCredentials => {
-        res.send(userCredentials)
-    }).catch(error => {
-        res.send(error)
-    });
-}
-
 module.exports = {
-    registrar,
-    signinWithGoogle
+    registrar
 }

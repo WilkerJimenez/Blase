@@ -109,6 +109,36 @@
           }
         }
       }
+    },
+    "/verifyId": {
+      "post": {
+        "summary": "Verificar IdToken",
+        "tags": [
+          "IdToken"
+        ],
+        "operationId": "IdToken",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/IdTokenRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {}
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -117,8 +147,7 @@
       "example": {
         "userName": "locksly011",
         "email": "abc@xyz.com",
-        "password": "abc@123",
-        "passConfirmation": "abc@123"
+        "password": "abc@123"
       },
       "type": "object",
       "properties": {
@@ -130,16 +159,12 @@
         },
         "password": {
           "type": "string"
-        },
-        "passConfirmation": {
-          "type": "string"
         }
       },
       "required": [
         "userName",
         "email",
-        "password",
-        "passConfirmation"
+        "password"
       ]
     },
     "loginRequest": {
@@ -160,6 +185,21 @@
       "required": [
         "email",
         "password"
+      ]
+    },
+    "IdTokenRequest": {
+      "title": "IdTokenRequest",
+      "example": {
+        "IdToken": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjBiYmQyOTllODU2MmU3MmYyZThkN2YwMTliYTdiZjAxMWFlZjU1Y2EiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vYmxhc2UtYzc2YTIiLCJhdWQiOiJibGFzZS1jNzZhMiIsImF1dGhfdGltZSI6MTcwMTE5NjUxNywidXNlcl9pZCI6IjFZNFZSOFR0UlpWUmNJVG1qclNnNWVzU3I4NzMiLCJzdWIiOiIxWTRWUjhUdFJaVlJjSVRtanJTZzVlc1NyODczIiwiaWF0IjoxNzAxMTk2NTE3LCJleHAiOjE3MDEyMDAxMTcsImVtYWlsIjoiYWJjQHh5ei5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsiYWJjQHh5ei5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.cGbVc2OEA2y6JIVj5q6ODOyxfo2nHO3wp99rU5RzU33pD28kqo-kaevbRO0fQbICVzxmjrmFR1g4j08zyDqir8W4jbKrC2mdXlKQnvJcewC-fZZ2v5kLu0PdsgPEylVhep_yW-KY3NyhXfNnO5JY3LStKNJLKX2Y1xWpoSaV4p5ziJ3UmYqZORYFOIJeT80g1bgAoNvBNBAwK_LLYyyLwKAcKhNPbxsXdFBgmu0czqcTOYFF_7ydEeD-oA7eBIqn1fjw9fEN6qZaP9LnPDZEokI_ySum4rK1KFkEjYrVLOWdekisOiR34hPwvJFf0Q1zM1kISTrFeu6ADhEGDaNFFg"
+      },
+      "type": "object",
+      "properties": {
+        "IdToken": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "IdToken"
       ]
     }
   }

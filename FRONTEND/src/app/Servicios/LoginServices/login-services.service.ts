@@ -1,12 +1,17 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { RestApiCon } from '../../RESTservice'
-import { userModel } from '../../Modelos/models'
+import { userModel, authModel } from '../../Modelos/models'
+import { GoogleAuthProvider } from '@angular/fire/auth'
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginServicesService {
+  private fireAuth;
   constructor() {
+    this.fireAuth = inject(AngularFireAuth);
   }
 
   logIn(endpoint: string, body: userModel) {
@@ -15,11 +20,29 @@ export class LoginServicesService {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     });
-    let result = con.requestMethod();
+
+    let result: any = con.requestMethod();
+
     return result;
   }
 
-  verifySession(endpoint: string, body: userModel) {
+  async logInG() {
+    let response: { status: number, body: any } = {
+      body: null,
+      status: 0
+    };
+    await this.fireAuth.signInWithPopup(new GoogleAuthProvider)
+      .then(data => {
+        response.status = 200
+        response.body = data;
+      }).catch(error => {
+        response.status = 502
+        console.log(error);
+      })
+    return response;
+  }
+
+  verifySession(endpoint: string, body: authModel) {
     let con = new RestApiCon(endpoint, {
       method: 'POST',
       headers: { "Content-Type": "application/json" },
