@@ -1,30 +1,46 @@
-<div class="min-h-screen 2xl:max-w-screen-xl bg-[#130821]">
-    <div class="grid grid-cols-2 grid-flow-col w-full">
-        <div class="col-span-2">
-            <div class="absolute inset-x-0 inset-x-96 -z-50">
-                <div class="absolute rounded-full bg-[#e6e6e6] p-28 -z-50"></div>
-            </div>
-            <div class="relative">
-                <div class="flex justify-center items-center min-h-screen">
-                    <p class="text-4xl uppercase font-bold text-[#fff] font-textShow">Recorre el mundo con Blase
+<div class="h-screen overflow-hidden 2xl:max-w-screen-xl 2xl:flex 2xl:justify-center 2xl:items-center bg-[#130821] text-[#fff] text-lg font-text">
+    <div class="grid grid-cols-2 grid-flow-col w-full h-full">
+        <div class="col-span-2 w-full h-full">
+            @if (navigationVar === "search") {
+            <search></search>
+            }
+            @else if(navigationVar === "chat"){
+
+            }@else if(navigationVar === "profile") {
+
+            }@else{
+            <div class="relative w-full h-full">
+                <div class="absolute bottom-40 right-96">
+                    <div class="absolute rounded-full bg-[#301c3c] p-28"></div>
+                </div>
+                <div class="absolute top-52 right-96">
+                    <div class="absolute rounded-full bg-[#301c3c] p-10"></div>
+                </div>
+                <div class="absolute top-10 left-96">
+                    <div class="absolute rounded-full bg-[#301c3c] p-20"></div>
+                </div>
+                <div class="flex justify-center items-center h-full">
+                    <p class="text-4xl uppercase font-bold font-textShow">Recorre el mundo con Blase
                     </p>
                 </div>
                 <div class="absolute inset-y-96 -left-20">
                     <img style="width: 600px; height: 400px;" src="../../../assets/spaceLeft.svg">
                 </div>
             </div>
+            }
+
         </div>
 
-        <div class="fixed right-0 bg-[#382454] min-h-screen w-20 max-w-20 grid grid-rows-3">
+        <div class="right-0 bg-[#382454] min-h-screen w-16 max-w-16 grid grid-rows-3">
             <div class="border-b-2 row-end-1 border-[#68cccc] ">
-                <div class="flex justify-center items-center p-4 h-fit">
-                    <img class=" w-10 h-10 hover:rotate-12 duration-200" style="cursor: pointer;"
-                        src="../../../assets/search.png" alt="">
+                <div class="flex justify-center items-center py-2 h-fit">
+                    <img class=" w-10 h-10 hover:rotate-12 duration-200" (click)="onMenuClickSearch('search')"
+                        style="cursor: pointer;" src="../../../assets/search.png" alt="">
                 </div>
             </div>
-            <div class="row-span-2 ">
-                <div class="grid grid-rows-2 p-2 gap-4">
-                    <div class="hover:border-r-2 ">
+            <div class="row-span-2">
+                <div class="grid grid-rows-2 p-2 gap-4 flex-grow-0 overflow-auto">
+                    <div class="hover:border-r-2 " (click)="onMenuClickSearch('chat')">
                         <img style="cursor: pointer;" src="../../../assets/blaselogoClear.png" alt="">
                     </div>
                     <div class="hover:border-r-2 ">
@@ -33,7 +49,7 @@
                 </div>
             </div>
 
-            <div class="border-t-2 border-[#68cccc] row-start-4 p-2">
+            <div class="border-t-2 border-[#68cccc] row-start-4 p-2" (click)="onMenuClickSearch('profile')">
                 <div class="h-fit inline-block borderAnm">
                     <img style="cursor: pointer;" src="../../../assets/blaselogoClear.png" alt="">
                 </div>

@@ -1,4 +1,3 @@
-const { auth } = require('../dependencies/dependencies')
 const { admin } = require('../dependencies/dependencies')
 
 const verifySession = async (req, res) => {

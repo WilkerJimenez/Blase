@@ -42,16 +42,27 @@
         }
       }
     },
-    "/registrarG": {
+    "/registrarToDb": {
       "post": {
-        "summary": "Registrar usuario con Google",
+        "summary": "Registrar usuario a firestore",
         "tags": [
-          "RegistrarG"
+          "RegistrarF"
         ],
-        "operationId": "regisG",
+        "operationId": "regisF",
         "deprecated": false,
         "produces": [
           "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/regisFRequest"
+            }
+          }
         ],
         "responses": {
           "200": {
@@ -139,6 +150,36 @@
           }
         }
       }
+    },
+    "/search": {
+      "post": {
+        "summary": "Devolver usuario",
+        "tags": [
+          "getUser"
+        ],
+        "operationId": "getUser",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/usergetRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {}
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -165,6 +206,31 @@
         "userName",
         "email",
         "password"
+      ]
+    },
+    "regisFRequest": {
+      "title": "regisFRequest",
+      "example": {
+        "userName": "locksly011",
+        "email": "abc@xyz.com",
+        "uid": "uid"
+      },
+      "type": "object",
+      "properties": {
+        "userName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "uid": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "userName",
+        "email",
+        "uid"
       ]
     },
     "loginRequest": {
@@ -200,6 +266,21 @@
       },
       "required": [
         "IdToken"
+      ]
+    },
+    "usergetRequest": {
+      "title": "usergetRequest",
+      "example": {
+        "query": "Wil011"
+      },
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "query"
       ]
     }
   }

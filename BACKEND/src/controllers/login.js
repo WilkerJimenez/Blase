@@ -18,15 +18,6 @@ const login = async (req, res) => {
         });
 }
 
-const signinWithGoogle = async (req, res) => {
-    const provider = new auth.GoogleAuthProvider();
-    auth.signInWithPopup(auth.getAuth(), provider).then(userCredentials => {
-        res.send(userCredentials)
-    }).catch(error => {
-        res.send(error)
-    });
-}
-
 const logOut = async (req, res) => {
     auth.signOut(auth.getAuth()).then(() => {
         res.send("Signed out succesfully")
@@ -37,6 +28,5 @@ const logOut = async (req, res) => {
 
 module.exports = {
     login,
-    signinWithGoogle,
     logOut
 }

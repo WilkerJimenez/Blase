@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { RegisServicesService } from "../../Servicios/RegisServices/regis-services.service"
-import { regisModel } from 'src/app/Modelos/models';
+import { LoginServicesService } from "../../Servicios/LoginServices/login-services.service"
+import { regisFModel, regisModel, userModel } from 'src/app/Modelos/models';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'registrar',
@@ -12,15 +14,20 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './registrar.component.css'
 })
 export class RegistrarComponent {
-  reg = new RegisServicesService()
+  constructor(private reg: RegisServicesService, private log: LoginServicesService) { }
+
   errorMsg = "";
   body: regisModel = {
     userName: '',
     email: '',
     password: ''
   }
-  endpoint = "api/registrar"
+  endpointR = "api/registrar"
+  endpointL = "api/login"
+  endpointF = "api/registrarToDb"
+
   passConfirm = '';
+  private router: Router = new Router;
 
   @Output() emitterReg = new EventEmitter<boolean>();
 
@@ -28,7 +35,7 @@ export class RegistrarComponent {
     this.emitterReg.emit(true);
   }
 
-  onSubmitRegis() {
+  async onSubmitRegis() {
     if (this.body.userName == '' || this.body.email == '' || this.body.password == '' || this.passConfirm == '') {
       this.errorMsg = "Rellene los campos faltantes."
       return;
@@ -39,6 +46,28 @@ export class RegistrarComponent {
       return;
     }
 
-    this.reg.regisUser(this.endpoint, this.body);
+    let result = await this.reg.regisUser(this.endpointR, this.body);
+    if (result?.status === 200) {
+      var userF: regisFModel = {
+        userName: this.body.userName,
+        email: this.body.email,
+        uid: result.body.user.uid,
+      }
+
+      await this.reg.regisUserF(this.endpointF, userF).then(async () => {
+        var user: userModel = {
+          email: this.body.email,
+          password: this.body.password,
+        }
+        let resultl = await this.log.logIn(this.endpointL, user);
+        localStorage.setItem('usuario', JSON.stringify(resultl.body?.user));
+      })
+
+      this.router.navigate(['/home']);
+    } else if (result?.status === 409) {
+      this.errorMsg = "El usuario ya existe";
+    } else if (result?.status === 502) {
+      this.errorMsg = "Error inesperado";
+    }
   }
 }

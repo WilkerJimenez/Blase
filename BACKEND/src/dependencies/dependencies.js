@@ -1,16 +1,19 @@
 const firebaseConfig = require('../dependencies/firebaseConfig')
-var admin = require("firebase-admin");
-var serviceAccount = require("../dependencies/serviceAccountKey.json");
+const serviceAccount = require("../dependencies/serviceAccountKey.json");
+const admin = require("firebase-admin");
 const firebaseApp = require('firebase/app')
 const auth = require('firebase/auth');
+const firestore = require('firebase/firestore');
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
 });
-firebaseApp.initializeApp(firebaseConfig);
+
+const app = firebaseApp.initializeApp(firebaseConfig);
 
 module.exports = {
-    firebaseApp,
+    app,
     auth,
-    admin
+    admin,
+    firestore
 }
