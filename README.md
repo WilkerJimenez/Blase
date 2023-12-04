@@ -1,1 +1,1 @@
-Aplicacion de mensajeria en Angular y Node JS
+Aplicacion de mensajeria desarrollada con Angular, Node JS y Firebase
