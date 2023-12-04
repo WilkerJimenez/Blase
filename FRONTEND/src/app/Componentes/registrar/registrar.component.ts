@@ -52,17 +52,12 @@ export class RegistrarComponent {
         userName: this.body.userName,
         email: this.body.email,
         uid: result.body.user.uid,
+        profilePic: ''
       }
 
-      await this.reg.regisUserF(this.endpointF, userF).then(async () => {
-        var user: userModel = {
-          email: this.body.email,
-          password: this.body.password,
-        }
-        let resultl = await this.log.logIn(this.endpointL, user);
-        localStorage.setItem('usuario', JSON.stringify(resultl.body?.user));
-      })
+      await this.reg.regisUserF(this.endpointF, userF)
 
+      localStorage.setItem('usuario', JSON.stringify(result.body?.user));
       this.router.navigate(['/home']);
     } else if (result?.status === 409) {
       this.errorMsg = "El usuario ya existe";

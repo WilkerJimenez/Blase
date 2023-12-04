@@ -5,7 +5,7 @@
 </style>
 <div class="w-full h-screen grid grid-cols-2 grid-flow-col">
     <div class="col-span-2 h-full p-10 flex justify-center">
-        <div class="font-textShow w-full uppercase text-xl p-10 ">
+        <div class="font-textShow w-full text-xl p-10 ">
             <form class="focus-within:border-b-[#68cccc] duration-200">
                 <div class="flex flex-nowrap group items-stretch relative">
                     <span class="p-1 flex items-center rounded-l border-b group-hover:border-b-[#68cccc] duration-200">
@@ -15,10 +15,12 @@
                                 d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
                         </svg>
                     </span>
-                    <input name="friend"
+                    <input name="friend" [(ngModel)]="body.query"
                         class="w-full p-2 border-b group-hover:border-b-[#68cccc] bg-inherit duration-200"
                         placeholder="Buscar amigo..." required type="text">
-                    <span class="flex items-center border-b group-hover:border-b-[#68cccc] duration-200" style="cursor: pointer;">
+                    <span (click)="onClickSearch()"
+                        class="flex items-center border-b group-hover:border-b-[#68cccc] duration-200"
+                        style="cursor: pointer;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                             class="bi bi-arrow-right-circle-fill" viewBox="0 0 16 16">
                             <path
@@ -27,13 +29,34 @@
                     </span>
                 </div>
             </form>
-            <div class="flex justify-center items-center w-full h-full">
-                <div class=" items-center flex">
+            <div class="flex justify-center w-full h-full">
+
+                @if (notFound) {
+                <div class="items-center flex uppercase">
                     <img class="sleep w-96 h-96" src="../../../assets/sleep.svg" alt="">
                     <div class="opacity-50">
                         <p>No amigos encontrados</p>
                     </div>
                 </div>
+                }@else {
+                <div class="text-lg font-text w-40 font-normal w-full px-8">
+                    @for (user of users; track $index) {
+                    <div class="flex justify-center gap-x-10 h-44">
+                        @if (onError !== true) {
+                        <div class="flex items-center"><img class="rounded-full" src="{{user.profilePic}}"
+                                onerror="onError = true" alt=""></div>
+                        }@else{
+
+                        }
+                        <div class="flex items-center"><span>{{user.displayName}}</span></div>
+                        <div class="flex items-center"><span class="opacity-50 truncate">{{user.uid}}</span></div>
+                        <div class="flex items-center"><span class=""><button (click)="onClickAddFriend(user)"
+                                    class="uppercase hover:drop-shadow-md bg-[#68cccc] duration-200 font-bold p-2 rounded-sm">Añadir
+                                    amigo</button></span></div>
+                    </div>
+                    }
+                </div>
+                }
             </div>
         </div>
     </div>

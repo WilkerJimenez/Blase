@@ -27,6 +27,7 @@ const registrarToDb = async (req, res) => {
         displayName: req.body.userName,
         email: req.body.email,
         uid: req.body.uid,
+        profilePic: req.body.profilePic,
     }
 
     await db.collection('usuarios').doc(user.uid).set(user)

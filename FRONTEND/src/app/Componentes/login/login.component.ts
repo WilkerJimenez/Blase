@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { LoginServicesService } from '../../Servicios/LoginServices/login-services.service'
-import { userModel } from 'src/app/Modelos/models';
+import { regisFModel, userModel } from 'src/app/Modelos/models';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { RegisServicesService } from 'src/app/Servicios/RegisServices/regis-services.service';
 
 @Component({
   selector: 'login',
@@ -17,12 +18,13 @@ export class LoginComponent {
   private router: Router = new Router;
   errorMsg: string = "";
   private endpoint = "api/login"
+  private endpointF = "api/registrarToDb"
   body: userModel = {
     email: '',
     password: ''
   };
 
-  constructor(private log: LoginServicesService) { }
+  constructor(private log: LoginServicesService, private reg: RegisServicesService) { }
 
   async onSubmitLog() {
     if (this.body.email == '' || this.body.password == '') {
@@ -43,11 +45,24 @@ export class LoginComponent {
 
   async onSubmitG() {
     let result = await this.log.logInG();
-    if (result?.status == 200) {
+    if (result?.status === 200) {
       console.log(result.body?.user);
       localStorage.setItem("usuario", JSON.stringify(result.body?.user))
       this.router.navigate(['/home']);
-    } else {
+    } else if (result?.status === 201) {
+
+      console.log(result.body?.user);
+      var userF: regisFModel = {
+        userName: result.body?.user.displayName,
+        email: result.body?.user.email,
+        uid: result.body.user.uid,
+        profilePic: result.body.user.photoURL
+      }
+      await this.reg.regisUserF(this.endpointF, userF)
+      localStorage.setItem("usuario", JSON.stringify(result.body?.user))
+      this.router.navigate(['/home']);
+    }
+    else {
 
       this.errorMsg = "Ha ocurrido un error."
     }

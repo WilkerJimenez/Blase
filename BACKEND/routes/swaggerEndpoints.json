@@ -180,6 +180,36 @@
           }
         }
       }
+    },
+    "/addFriend": {
+      "post": {
+        "summary": "Agregar a usuario",
+        "tags": [
+          "requestUser"
+        ],
+        "operationId": "requestUser",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/requestUser"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {}
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -281,6 +311,41 @@
       },
       "required": [
         "query"
+      ]
+    },
+    "requestUser": {
+      "title": "requestUser",
+      "example": {
+        "userId": "aEgDvbhpsPecfAGsZ5KFeEF5TCA3",
+        "displayName": "fulano",
+        "email": "abc@xyz.com",
+        "uid": "dsaDDSADfaosdoDIASO",
+        "profilePic": ""
+      },
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "uid": {
+          "type": "string"
+        },
+        "profilePic": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "userId",
+        "displayName",
+        "email",
+        "uid",
+        "profilePic"
       ]
     }
   }

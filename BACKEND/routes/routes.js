@@ -29,4 +29,8 @@ router
     .route("/search")
     .post(home.search)
 
+router
+    .route("/addFriend")
+    .post(home.addFriend)
+
 module.exports = router;

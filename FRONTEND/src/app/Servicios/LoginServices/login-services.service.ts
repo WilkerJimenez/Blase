@@ -33,7 +33,11 @@ export class LoginServicesService {
     };
     await this.fireAuth.signInWithPopup(new GoogleAuthProvider)
       .then(data => {
-        response.status = 200
+        if (data.additionalUserInfo?.isNewUser) {
+          response.status = 201
+        } else {
+          response.status = 200
+        }
         response.body = data;
       }).catch(error => {
         response.status = 502
