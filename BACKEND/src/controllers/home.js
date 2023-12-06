@@ -3,9 +3,17 @@ const { admin } = require("../dependencies/dependencies");
 const db = admin.firestore();
 
 const search = async (req, res) => {
-    const query = req.body.query;
+    const query = {
+        userId: req.body.userId,
+        friendName: req.body.friendName
+    }
     var data = [];
-    await db.collection('usuarios').where("displayName", '==', query).get().then(result => {
+    await db.collection('usuarios').where("uid", '!=', query.userId).where(
+        admin.firestore.Filter.or(
+            admin.firestore.Filter.where("uid", '==', query.friendName),
+            admin.firestore.Filter.where("displayName", '==', query.friendName)
+        )
+    ).get().then(result => {
         result.forEach(doc => {
             data.push(doc.data())
         })
@@ -33,7 +41,23 @@ const addFriend = async (req, res) => {
 
 }
 
+const getFriends = async (req, res) => {
+    userId = req.body.userId
+    var data = [];
+
+    await db.collection('usuarios').doc(userId).collection('friends').get().then(result => {
+        result.forEach(doc => {
+            data.push(doc.data())
+        })
+    }).catch(error => {
+        res.send(error);
+    })
+
+    res.send(data)
+}
+
 module.exports = {
     search,
-    addFriend
+    addFriend,
+    getFriends
 }

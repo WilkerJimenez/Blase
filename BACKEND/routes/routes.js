@@ -33,4 +33,8 @@ router
     .route("/addFriend")
     .post(home.addFriend)
 
+router
+    .route("/getFriend")
+    .post(home.getFriends)
+    
 module.exports = router;

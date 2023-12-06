@@ -16,21 +16,34 @@ import { ToastrService } from 'ngx-toastr';
 export class SearchComponent {
   private endpointSearch = "api/search";
   private endpointAddFriend = "api/addFriend";
+  userId = JSON.parse(localStorage.getItem("usuario") || '{}');
+  friends = JSON.parse(localStorage.getItem("friends") || '{}');
+
   body: searchModel = {
-    query: ''
+    userId: this.userId?.uid,
+    friendName: ''
   }
 
   notFound = true;
-  onError = false;
   users: any;
   constructor(private search: SearchServicesService, private toast: ToastrService) { }
 
   async onClickSearch() {
-    if (this.body.query === '') return;
+    if (this.body.friendName === '') return;
     let result = await this.search.searchRequest(this.endpointSearch, this.body);
     if (result?.status === 200) {
-      this.users = result?.body;
-      console.log(this.users)
+
+      if (this.friends.length > 0) {
+        let friendsIds: any = [];
+        this.friends.forEach((element: { uid: any; }) => {
+          friendsIds.push(element.uid)
+        });
+        let filter = result?.body.filter((f: { uid: any; }) => !friendsIds.includes(f.uid))
+        this.users = filter;
+      } else {
+        this.users = result?.body;
+      }
+
       this.notFound = false;
     } else {
       this.notFound = true;
@@ -49,6 +62,8 @@ export class SearchComponent {
     }
     let result = await this.search.addFriendRequest(this.endpointAddFriend, friendReq);
     if (result?.status === 200) {
+      this.friends.push(friend)
+      localStorage.setItem("friends", JSON.stringify(this.friends))
       this.toast.success("Se ha agregado a un amigo", "Blase", { timeOut: 2000 })
     } else {
 

@@ -1,4 +1,5 @@
-<div class="h-screen overflow-hidden 2xl:max-w-screen-xl 2xl:flex 2xl:justify-center 2xl:items-center bg-[#130821] text-[#fff] text-lg font-text">
+<div
+    class="h-screen overflow-hidden 2xl:max-w-screen-xl 2xl:flex 2xl:justify-center 2xl:items-center bg-[#130821] text-[#fff] text-lg font-text">
     <div class="grid grid-cols-2 grid-flow-col w-full h-full">
         <div class="col-span-2 w-full h-full">
             @if (navigationVar === "search") {
@@ -40,12 +41,22 @@
             </div>
             <div class="row-span-2">
                 <div class="grid grid-rows-2 p-2 gap-4 flex-grow-0 overflow-auto">
-                    <div class="hover:border-r-2 " (click)="onMenuClickSearch('chat')">
-                        <img style="cursor: pointer;" src="../../../assets/blaselogoClear.png" alt="">
-                    </div>
-                    <div class="hover:border-r-2 ">
-                        <img style="cursor: pointer;" src="../../../assets/blaselogoClear.png" alt="">
-                    </div>
+                        @if(friends){
+                            @for (friend of friends; track $index) {    
+                                @if (friend.profilePic !== "") {
+                                    <div class="hover:border-r-2 " (click)="onMenuClickSearch('chat')">
+                                        <img class="rounded-full" style="cursor: pointer;" src="{{friend.profilePic}}" alt="">
+                                    </div>
+                                }@else{
+                                    <div class="hover:border-r-2 " (click)="onMenuClickSearch('chat')">
+                                        <img class="rounded-full" style="cursor: pointer;" src="../../../assets/userS.png" alt="">
+                                    </div>
+                                }
+                            
+                            }
+                        }@else {
+
+                        }
                 </div>
             </div>
 

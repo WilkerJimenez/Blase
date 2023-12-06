@@ -210,6 +210,36 @@
           }
         }
       }
+    },
+    "/getFriend": {
+      "post": {
+        "summary": "Recibir amigos",
+        "tags": [
+          "getFriend"
+        ],
+        "operationId": "getFriend",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/getFriend"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {}
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -301,16 +331,21 @@
     "usergetRequest": {
       "title": "usergetRequest",
       "example": {
-        "query": "Wil011"
+        "userId": "aEgDvbhpsPecfAGsZ5KFeEF5TCA3",
+        "friendName": "Wil011"
       },
       "type": "object",
       "properties": {
-        "query": {
+        "userId": {
+          "type": "string"
+        },
+        "friendName": {
           "type": "string"
         }
       },
       "required": [
-        "query"
+        "userId",
+        "friendName"
       ]
     },
     "requestUser": {
@@ -346,6 +381,21 @@
         "email",
         "uid",
         "profilePic"
+      ]
+    },
+    "getFriend": {
+      "title": "getFriend",
+      "example": {
+        "userId": "aEgDvbhpsPecfAGsZ5KFeEF5TCA3"
+      },
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "userId"
       ]
     }
   }
