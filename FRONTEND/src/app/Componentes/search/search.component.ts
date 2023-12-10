@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SearchServicesService } from '../../Servicios/SearchServices/search-services.service'
-import { searchModel, addFriendModel } from 'src/app/Modelos/models';
+import { searchModel, addFriendModel, getFriendModel } from 'src/app/Modelos/models';
 import { ToastrService } from 'ngx-toastr';
 import { SocketServicesService } from 'src/app/Servicios/SocketServices/socket-services.service';
 
@@ -16,13 +16,17 @@ import { SocketServicesService } from 'src/app/Servicios/SocketServices/socket-s
 })
 export class SearchComponent implements OnInit {
   private endpointAddFriend = "api/addFriend";
-  userId = JSON.parse(localStorage.getItem("usuario") || '{}');
+  user = JSON.parse(localStorage.getItem("usuario") || '{}');
   @Input() friends: any;
 
   body: searchModel = {
-    userId: this.userId?.uid,
+    userId: this.user?.uid,
     friendName: '',
     friends: ''
+  }
+
+  getFriend: getFriendModel = {
+    userId: this.user?.uid,
   }
 
   notFound = true;
@@ -51,21 +55,24 @@ export class SearchComponent implements OnInit {
   }
 
   async getFriends() {
-    this.socket.getNavBar(this.body).subscribe((change) => {
+    this.socket.getNavBar(this.getFriend).subscribe((change) => {
       this.friends = change
     })
   }
 
   async onClickAddFriend(friend: any) {
-    const userId = JSON.parse(localStorage.getItem("usuario") || '{}');
 
     const friendReq: addFriendModel = {
-      userId: userId?.uid,
-      displayName: friend?.displayName,
-      email: friend?.email,
-      uid: friend?.uid,
-      profilePic: friend?.profilePic
+      userId: this.user?.uid,
+      displayName: this.user?.displayName,
+      email: this.user?.email,
+      profilePic: this.user?.photoURL,
+      displayNameF: friend?.displayName,
+      emailF: friend?.email,
+      userIdF: friend?.uid,
+      profilePicF: friend?.profilePic,
     }
+
     let result = await this.search.addFriendRequest(this.endpointAddFriend, friendReq);
     if (result?.status === 200) {
       this.getFriends();

@@ -16,9 +16,8 @@ export class SocketServicesService {
     return new Observable(subscribe => {
       this.socket.on('connect', () => {
       })
-
       this.socket.emit('getFriends', body)
-      this.socket.on('getFriends', data => {
+      this.socket.on(body.userId, data => {
         subscribe.next(data);
       })
     })
@@ -28,7 +27,6 @@ export class SocketServicesService {
     return new Observable(subscribe => {
       this.socket.on('connect', () => {
       })
-
       this.socket.emit('searchFriends', body)
       this.socket.on('searchFriends', data => {
         subscribe.next(data);

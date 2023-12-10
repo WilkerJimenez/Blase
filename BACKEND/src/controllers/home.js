@@ -21,16 +21,24 @@ const search = async (userId, friendName) => {
 }
 
 const addFriend = async (req, res) => {
-    userId = req.body.userId
     const user = {
         displayName: req.body.displayName,
         email: req.body.email,
-        uid: req.body.uid,
+        userId: req.body.userId,
         profilePic: req.body.profilePic,
     }
 
-    await db.collection('usuarios').doc(userId).collection('friends').doc(user.uid).set(user).then(() => {
-        res.sendStatus(200);
+    const userF = {
+        displayName: req.body.displayNameF,
+        email: req.body.emailF,
+        userId: req.body.userIdF,
+        profilePic: req.body.profilePicF,
+    }
+
+    await db.collection('usuarios').doc(user.userId).collection('friends').doc(userF.userId).set(userF).then(() => {
+        db.collection('usuarios').doc(userF.userId).collection('friends').doc(user.userId).set(user).then(() => {
+            res.sendStatus(200);
+        })
     }).catch(error => {
         res.send(error);
     })

@@ -30,10 +30,13 @@ export interface addFriendModel {
     userId: string,
     displayName: string,
     email: string,
-    uid: string,
     profilePic: string,
+    userIdF: string,
+    displayNameF: string,
+    emailF: string,
+    profilePicF: string,
 }
 
 export interface getFriendModel {
-    userId: string
+    userId: string,
 }

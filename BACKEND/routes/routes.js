@@ -40,15 +40,16 @@ function routerF(sockets) {
     sockets.on('connection', (socket) => {
         socket.on('getFriends', async (data) => {
             const result = await home.getFriendsDB(data.userId);
-            socket.emit('getFriends', result)
+            sockets.emit(data.userId, result)
         })
+
         socket.on('searchFriends', async (data) => {
             let friends = data.friends;
             const result = [] = await home.search(data.userId, data.friendName);
             if (result) {
                 let friendsIds = [];
                 friends?.forEach((element) => {
-                    friendsIds.push(element.uid)
+                    friendsIds.push(element.userId)
                 });
                 let filter = [] = result?.filter((item) => !friendsIds.includes(item.uid))
                 socket.emit('searchFriends', filter)
