@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { RestApiCon } from '../../RESTservice'
-import { searchModel, addFriend } from '../../Modelos/models'
+import { searchModel, addFriendModel } from '../../Modelos/models'
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +21,7 @@ export class SearchServicesService {
     return result;
   }
 
-  addFriendRequest(endpoint: string, body: addFriend) {
+  addFriendRequest(endpoint: string, body: addFriendModel) {
     let con = new RestApiCon(endpoint, {
       method: 'POST',
       headers: { "Content-Type": "application/json" },

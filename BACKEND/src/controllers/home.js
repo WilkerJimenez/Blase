@@ -1,26 +1,22 @@
 const { admin } = require("../dependencies/dependencies");
 
 const db = admin.firestore();
-
-const search = async (req, res) => {
-    const query = {
-        userId: req.body.userId,
-        friendName: req.body.friendName
-    }
+const search = async (userId, friendName) => {
     var data = [];
-    await db.collection('usuarios').where("uid", '!=', query.userId).where(
+    await db.collection('usuarios').where("uid", '!=', userId).where(
         admin.firestore.Filter.or(
-            admin.firestore.Filter.where("uid", '==', query.friendName),
-            admin.firestore.Filter.where("displayName", '==', query.friendName)
+            admin.firestore.Filter.where("uid", '==', friendName),
+            admin.firestore.Filter.where("displayName", '==', friendName)
         )
     ).get().then(result => {
         result.forEach(doc => {
             data.push(doc.data())
         })
     }).catch(error => {
-        res.send(error)
+        console.log(error)
     });
-    res.send(data);
+
+    return data;
 
 }
 
@@ -56,8 +52,22 @@ const getFriends = async (req, res) => {
     res.send(data)
 }
 
+const getFriendsDB = async (userId) => {
+    var data = [];
+    await db.collection('usuarios').doc(userId).collection('friends').get().then(result => {
+        result.forEach(doc => {
+            data.push(doc.data())
+        })
+    }).catch(error => {
+        console.log(error);
+    })
+
+    return data;
+}
+
 module.exports = {
     search,
     addFriend,
-    getFriends
+    getFriends,
+    getFriendsDB
 }

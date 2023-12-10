@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SearchServicesService } from '../../Servicios/SearchServices/search-services.service'
-import { searchModel, addFriend } from 'src/app/Modelos/models';
+import { searchModel, addFriendModel } from 'src/app/Modelos/models';
 import { ToastrService } from 'ngx-toastr';
+import { SocketServicesService } from 'src/app/Servicios/SocketServices/socket-services.service';
 
 
 @Component({
@@ -13,47 +14,52 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './search.component.html',
   styleUrl: './search.component.css'
 })
-export class SearchComponent {
-  private endpointSearch = "api/search";
+export class SearchComponent implements OnInit {
   private endpointAddFriend = "api/addFriend";
   userId = JSON.parse(localStorage.getItem("usuario") || '{}');
-  friends = JSON.parse(localStorage.getItem("friends") || '{}');
+  @Input() friends: any;
 
   body: searchModel = {
     userId: this.userId?.uid,
-    friendName: ''
+    friendName: '',
+    friends: ''
   }
 
   notFound = true;
   users: any;
-  constructor(private search: SearchServicesService, private toast: ToastrService) { }
+  constructor(private search: SearchServicesService, private toast: ToastrService, private socket: SocketServicesService) {
 
-  async onClickSearch() {
-    if (this.body.friendName === '') return;
-    let result = await this.search.searchRequest(this.endpointSearch, this.body);
-    if (result?.status === 200) {
+  }
+  ngOnInit(): void {
+    this.body.friends = this.friends;
+  }
 
-      if (this.friends.length > 0) {
-        let friendsIds: any = [];
-        this.friends.forEach((element: { uid: any; }) => {
-          friendsIds.push(element.uid)
-        });
-        let filter = result?.body.filter((f: { uid: any; }) => !friendsIds.includes(f.uid))
-        this.users = filter;
-      } else {
-        this.users = result?.body;
-      }
-
-      this.notFound = false;
-    } else {
+  async Search() {
+    if (this.body.friendName === '') {
+      this.users = "";
       this.notFound = true;
+    } else {
+      this.socket.searchFriends(this.body).subscribe((change: any) => {
+        if (Object.keys(change).length > 0) {
+          this.users = change;
+          this.notFound = false;
+        } else {
+          this.notFound = true;
+        }
+      });
     }
+  }
+
+  async getFriends() {
+    this.socket.getNavBar(this.body).subscribe((change) => {
+      this.friends = change
+    })
   }
 
   async onClickAddFriend(friend: any) {
     const userId = JSON.parse(localStorage.getItem("usuario") || '{}');
 
-    const friendReq: addFriend = {
+    const friendReq: addFriendModel = {
       userId: userId?.uid,
       displayName: friend?.displayName,
       email: friend?.email,
@@ -62,8 +68,8 @@ export class SearchComponent {
     }
     let result = await this.search.addFriendRequest(this.endpointAddFriend, friendReq);
     if (result?.status === 200) {
-      this.friends.push(friend)
-      localStorage.setItem("friends", JSON.stringify(this.friends))
+      this.getFriends();
+      this.Search();
       this.toast.success("Se ha agregado a un amigo", "Blase", { timeOut: 2000 })
     } else {
 

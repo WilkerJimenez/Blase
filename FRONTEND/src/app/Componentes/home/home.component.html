@@ -3,7 +3,7 @@
     <div class="grid grid-cols-2 grid-flow-col w-full h-full">
         <div class="col-span-2 w-full h-full">
             @if (navigationVar === "search") {
-            <search></search>
+            <search [friends]="friends"></search>
             }
             @else if(navigationVar === "chat"){
 

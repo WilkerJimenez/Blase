@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SearchComponent } from '../search/search.component';
 import { HomeServicesService } from 'src/app/Servicios/HomeServices/home-services.service';
-import { getFriend } from '../../Modelos/models'
+import { SocketServicesService } from 'src/app/Servicios/SocketServices/socket-services.service';
+import { getFriendModel } from '../../Modelos/models'
 
 @Component({
   selector: 'home',
@@ -16,19 +17,22 @@ export class HomeComponent implements OnInit {
   endpointFriends = "api/getFriend"
   navigationVar = "";
   userId = JSON.parse(localStorage.getItem("usuario") || '{}');
-  body: getFriend = {
+  body: getFriendModel = {
     userId: this.userId?.uid
   };
 
-  friends: any;
+  @Input() friends: any;
 
-  constructor(private home: HomeServicesService) {
-
+  constructor(private home: HomeServicesService, private socket: SocketServicesService) {
+    this.getFriends();
   }
 
-  async ngOnInit(): Promise<void> {
-    let result = await this.home.getFriend(this.endpointFriends, this.body);
-    this.friends = result?.body;
+  async getFriends() {
+    this.socket.getNavBar(this.body).subscribe((change) => {
+      this.friends = change
+    })
+  }
+  ngOnInit() {
   }
 
   onMenuClickSearch(item: string) {
