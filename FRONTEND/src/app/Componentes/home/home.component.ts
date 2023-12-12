@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit {
   userId = JSON.parse(localStorage.getItem("usuario") || '{}');
   body: getFriendModel = {
     userId: this.userId?.uid,
+    userIdF: '',
   };
 
   @Input() friends: any;

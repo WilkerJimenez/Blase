@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -10,6 +11,9 @@ import { Router } from '@angular/router';
   styleUrl: './inicio.component.css'
 })
 export class InicioComponent {
+
+  constructor() {
+  }
   router = new Router;
   @HostListener('document:mousemove', ['$event'])
   onMouseMove(e: any) {

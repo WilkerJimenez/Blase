@@ -25,10 +25,6 @@ export class SearchComponent implements OnInit {
     friends: ''
   }
 
-  getFriend: getFriendModel = {
-    userId: this.user?.uid,
-  }
-
   notFound = true;
   users: any;
   constructor(private search: SearchServicesService, private toast: ToastrService, private socket: SocketServicesService) {
@@ -43,20 +39,26 @@ export class SearchComponent implements OnInit {
       this.users = "";
       this.notFound = true;
     } else {
-      this.socket.searchFriends(this.body).subscribe((change: any) => {
-        if (Object.keys(change).length > 0) {
-          this.users = change;
-          this.notFound = false;
-        } else {
-          this.notFound = true;
-        }
-      });
+      setTimeout(() => {
+        this.socket.searchFriends(this.body).subscribe((change: any) => {
+          if (Object.keys(change).length > 0) {
+            this.users = change;
+            this.notFound = false;
+          } else {
+            this.notFound = true;
+          }
+        });
+      }, 500);
     }
   }
 
-  async getFriends() {
-    this.socket.getNavBar(this.getFriend).subscribe((change) => {
-      this.friends = change
+  async getFriends(uid: getFriendModel) {
+    const getFriend: getFriendModel = {
+      userId: uid.userId,
+      userIdF: uid.userIdF
+    }
+    this.socket.getNavBar(getFriend).subscribe((change: any) => {
+      this.body.friends = change
     })
   }
 
@@ -75,8 +77,12 @@ export class SearchComponent implements OnInit {
 
     let result = await this.search.addFriendRequest(this.endpointAddFriend, friendReq);
     if (result?.status === 200) {
-      this.getFriends();
-      this.Search();
+      const getFriend: getFriendModel = {
+        userId: friendReq.userId,
+        userIdF: friendReq.userIdF
+      }
+      await this.getFriends(getFriend);
+      await this.Search();
       this.toast.success("Se ha agregado a un amigo", "Blase", { timeOut: 2000 })
     } else {
 

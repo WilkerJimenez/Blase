@@ -39,8 +39,15 @@ function routerF(sockets) {
     //WS
     sockets.on('connection', (socket) => {
         socket.on('getFriends', async (data) => {
-            const result = await home.getFriendsDB(data.userId);
-            sockets.emit(data.userId, result)
+            if (data.userIdF !== '') {
+                const result = await home.getFriendsDB(data.userId);
+                const resultF = await home.getFriendsDB(data.userIdF);
+                sockets.emit(data.userId, result)
+                sockets.emit(data.userIdF, resultF)
+            } else {
+                const result = await home.getFriendsDB(data.userId);
+                sockets.emit(data.userId, result)
+            }
         })
 
         socket.on('searchFriends', async (data) => {

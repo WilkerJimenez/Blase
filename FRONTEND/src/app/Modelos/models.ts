@@ -39,4 +39,5 @@ export interface addFriendModel {
 
 export interface getFriendModel {
     userId: string,
+    userIdF: string,
 }
