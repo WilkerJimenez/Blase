@@ -44,8 +44,8 @@
                         <div class="flex items-center justify-center w-40"><span
                                 class="opacity-50 truncate">{{user.uid}}</span></div>
                         <div class="flex items-center justify-center w-40"><span class=""><button
-                                    (click)="onClickAddFriend(user)"
-                                    class="uppercase hover:drop-shadow-md bg-[#68cccc] duration-200 font-bold p-2 rounded-sm">Añadir
+                                    (click)="onClickSendRequest(user)"
+                                    class="uppercase hover:drop-shadow-md bg-[#382454] duration-200 font-bold p-2 rounded-sm">Añadir
                                     amigo</button></span></div>
                     </div>
                     }
@@ -55,8 +55,29 @@
         </div>
     </div>
     <div class="pt-20 h-full bg-[#301c3c]">
-        <div class="font-textShow w-full uppercase text-xl p-10 ">
-            <p>Solicitudes</p>
+        <div class="p-4 ">
+            <div class="font-textShow w-full flex justify-center uppercase text-xl p-10">Solicitudes</div>
+            @if (requests) {
+            @for (request of requests; track $index) {
+            <div class="p-4 rounded bg-[#23132D] font-text w-full justify-items-center text-lg grid grid-rows-2">
+                <div class="row-span-2  w-full flex justify-center gap-4">
+                    @if (request.profilePic !== "") {
+                    <img class="rounded-full w-12" src="{{request.profilePic}}" alt="">
+                    }@else {
+                    <img class="rounded-full w-12" src="../../../assets/userS.png" alt="">
+                    }
+                    <span class="flex items-center">
+                        {{request.displayName}}
+                    </span>
+                </div>
+                <div class="pt-2 w-full flex justify-center">
+                    <button (click)="onClickAddFriend(request)"
+                        class="uppercase hover:drop-shadow-md bg-[#382454] duration-200 font-bold p-2 px-6 rounded-sm">Aceptar
+                    </button>
+                </div>
+            </div>
+            }
+            }
         </div>
     </div>
 </div>

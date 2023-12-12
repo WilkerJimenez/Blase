@@ -23,7 +23,15 @@ export interface authModel {
 export interface searchModel {
     userId: string,
     friendName: string,
-    friends:string
+    friends: any[]
+}
+
+export interface sendRequestsModel {
+    userId: string,
+    userIdF: string,
+    displayName: string,
+    profilePic: string,
+    email: string
 }
 
 export interface addFriendModel {
@@ -40,4 +48,8 @@ export interface addFriendModel {
 export interface getFriendModel {
     userId: string,
     userIdF: string,
+}
+
+export interface getRequestsModel {
+    userId: string
 }

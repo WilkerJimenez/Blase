@@ -33,6 +33,10 @@ function routerF(sockets) {
         .post(home.search)
 
     router
+        .route("/sendRequest")
+        .post(home.sendRequest)
+
+    router
         .route("/addFriend")
         .post(home.addFriend)
 
@@ -42,12 +46,17 @@ function routerF(sockets) {
             if (data.userIdF !== '') {
                 const result = await home.getFriendsDB(data.userId);
                 const resultF = await home.getFriendsDB(data.userIdF);
-                sockets.emit(data.userId, result)
-                sockets.emit(data.userIdF, resultF)
+                sockets.emit(`getFriends${data.userId}`, result)
+                sockets.emit(`getFriends${data.userIdF}`, resultF)
             } else {
                 const result = await home.getFriendsDB(data.userId);
-                sockets.emit(data.userId, result)
+                sockets.emit(`getFriends${data.userId}`, result)
             }
+        })
+
+        socket.on('getRequests', async (data) => {
+            const result = await home.getRequestsDB(data.userId);
+            sockets.emit(`getRequests${data.userId}`, result)
         })
 
         socket.on('searchFriends', async (data) => {

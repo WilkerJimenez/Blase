@@ -158,7 +158,7 @@
           "getUser"
         ],
         "operationId": "getUser",
-        "deprecated": false,
+        "deprecated": true,
         "produces": [
           "application/json"
         ],
@@ -181,9 +181,9 @@
         }
       }
     },
-    "/addFriend": {
+    "/sendRequest": {
       "post": {
-        "summary": "Agregar a usuario",
+        "summary": "Enviar solicitud",
         "tags": [
           "requestUser"
         ],
@@ -211,6 +211,36 @@
         }
       }
     },
+    "/addFriend": {
+      "post": {
+        "summary": "Agregar a usuario",
+        "tags": [
+          "addUser"
+        ],
+        "operationId": "addUser",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/addUser"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {}
+          }
+        }
+      }
+    },
     "/getFriend": {
       "post": {
         "summary": "Recibir amigos",
@@ -218,7 +248,7 @@
           "getFriend"
         ],
         "operationId": "getFriend",
-        "deprecated": false,
+        "deprecated": true,
         "produces": [
           "application/json"
         ],
@@ -352,10 +382,48 @@
       "title": "requestUser",
       "example": {
         "userId": "aEgDvbhpsPecfAGsZ5KFeEF5TCA3",
+        "userIdF": "nKO4ZHXIwrUpm83cEgSQhQGVJEe2",
+        "displayName": "Wil011",
+        "profilePic": "",
+        "email": "abc@xyz.com"
+      },
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string"
+        },
+        "userIdF": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "profilePic": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "userId",
+        "userIdF",
+        "displayName",
+        "profilePic",
+        "email"
+      ]
+    },
+    "addUser": {
+      "title": "addUser",
+      "example": {
+        "userId": "aEgDvbhpsPecfAGsZ5KFeEF5TCA3",
         "displayName": "fulano",
         "email": "abc@xyz.com",
-        "uid": "dsaDDSADfaosdoDIASO",
-        "profilePic": ""
+        "profilePic": "",
+        "userIdF": "nKO4ZHXIwrUpm83cEgSQhQGVJEe2",
+        "displayNameF": "fulano",
+        "emailF": "abc@xyz.com",
+        "profilePicF": ""
       },
       "type": "object",
       "properties": {
@@ -368,10 +436,19 @@
         "displayName": {
           "type": "string"
         },
-        "uid": {
+        "profilePic": {
           "type": "string"
         },
-        "profilePic": {
+        "userIdF": {
+          "type": "string"
+        },
+        "emailF": {
+          "type": "string"
+        },
+        "displayNameF": {
+          "type": "string"
+        },
+        "profilePicF": {
           "type": "string"
         }
       },
@@ -379,8 +456,11 @@
         "userId",
         "displayName",
         "email",
-        "uid",
-        "profilePic"
+        "profilePic",
+        "userIdF",
+        "displayNameF",
+        "emailF",
+        "profilePicF"
       ]
     },
     "getFriend": {

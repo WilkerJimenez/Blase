@@ -20,6 +20,23 @@ const search = async (userId, friendName) => {
 
 }
 
+const sendRequest = async (req, res) => {
+    const requestTo = req.body.userIdF;
+    const user = {
+        userId: req.body.userId,
+        displayName: req.body.displayName,
+        profilePic: req.body.profilePic,
+        email: req.body.email,
+    }
+
+    await db.collection('usuarios').doc(requestTo).collection('requests').doc(user.userId).set(user).then(() => {
+        res.sendStatus(200)
+    }).catch(error => {
+        res.sendStatus(502);
+    })
+
+}
+
 const addFriend = async (req, res) => {
     const user = {
         displayName: req.body.displayName,
@@ -34,17 +51,19 @@ const addFriend = async (req, res) => {
         userId: req.body.userIdF,
         profilePic: req.body.profilePicF,
     }
-
-    await db.collection('usuarios').doc(user.userId).collection('friends').doc(userF.userId).set(userF).then(() => {
-        db.collection('usuarios').doc(userF.userId).collection('friends').doc(user.userId).set(user).then(() => {
-            res.sendStatus(200);
+    await db.collection('usuarios').doc(user.userId).collection('requests').doc(userF.userId).delete().then(() => {
+        db.collection('usuarios').doc(user.userId).collection('friends').doc(userF.userId).set(userF).then(() => {
+            db.collection('usuarios').doc(userF.userId).collection('friends').doc(user.userId).set(user).then(() => {
+                res.sendStatus(200);
+            })
         })
     }).catch(error => {
-        res.send(error);
+        res.sendStatus(502);
     })
 
 }
 
+/*
 const getFriends = async (req, res) => {
     userId = req.body.userId
     var data = [];
@@ -58,6 +77,20 @@ const getFriends = async (req, res) => {
     })
 
     res.send(data)
+}
+*/
+
+const getRequestsDB = async (userId) => {
+    var data = [];
+    await db.collection('usuarios').doc(userId).collection('requests').get().then(result => {
+        result.forEach(doc => {
+            data.push(doc.data())
+        })
+    }).catch(error => {
+        console.log(error);
+    })
+
+    return data;
 }
 
 const getFriendsDB = async (userId) => {
@@ -76,6 +109,8 @@ const getFriendsDB = async (userId) => {
 module.exports = {
     search,
     addFriend,
-    getFriends,
-    getFriendsDB
+    //getFriends,
+    getFriendsDB,
+    sendRequest,
+    getRequestsDB
 }

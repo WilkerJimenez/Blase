@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SearchServicesService } from '../../Servicios/SearchServices/search-services.service'
-import { searchModel, addFriendModel, getFriendModel } from 'src/app/Modelos/models';
+import { searchModel, addFriendModel, getFriendModel, getRequestsModel, sendRequestsModel } from 'src/app/Modelos/models';
 import { ToastrService } from 'ngx-toastr';
 import { SocketServicesService } from 'src/app/Servicios/SocketServices/socket-services.service';
 
@@ -16,21 +16,28 @@ import { SocketServicesService } from 'src/app/Servicios/SocketServices/socket-s
 })
 export class SearchComponent implements OnInit {
   private endpointAddFriend = "api/addFriend";
+  private endpointSendRequest = "api/sendRequest";
+
   user = JSON.parse(localStorage.getItem("usuario") || '{}');
   @Input() friends: any;
+  requests: any;
+  notFound = true;
+  users: any;
 
   body: searchModel = {
     userId: this.user?.uid,
     friendName: '',
-    friends: ''
+    friends: []
   }
 
-  notFound = true;
-  users: any;
+  getR: getRequestsModel = {
+    userId: this.user?.uid,
+  }
+
   constructor(private search: SearchServicesService, private toast: ToastrService, private socket: SocketServicesService) {
-
+    this.getRequests(this.getR);
   }
-  ngOnInit(): void {
+  ngOnInit() {
     this.body.friends = this.friends;
   }
 
@@ -52,14 +59,43 @@ export class SearchComponent implements OnInit {
     }
   }
 
+  async getRequests(uid: getRequestsModel) {
+    const getRequests: getRequestsModel = {
+      userId: uid.userId,
+    }
+
+    this.socket.getRequests(getRequests).subscribe((change: any) => {
+      let filter = [] = this.body.friends?.filter((item: any) => !change?.includes(item.uid))
+      this.body.friends.push(filter);
+    })
+  }
+
   async getFriends(uid: getFriendModel) {
     const getFriend: getFriendModel = {
       userId: uid.userId,
       userIdF: uid.userIdF
     }
     this.socket.getNavBar(getFriend).subscribe((change: any) => {
-      this.body.friends = change
+      let filter = [] = this.body.friends?.filter((item: any) => !change?.includes(item.uid))
+      this.body.friends.push(filter);
     })
+  }
+
+  async onClickSendRequest(req: any) {
+    const friend: sendRequestsModel = {
+      userIdF: req.uid,
+      userId: this.user?.uid,
+      displayName: this.user?.displayName,
+      email: this.user?.email,
+      profilePic: this.user?.photoURL
+    }
+
+    let result = await this.search.sendFriendRequest(this.endpointSendRequest, friend);
+    if (result?.status === 200) {
+      //this.body.friends.push(req);
+      this.toast.success("Se ha enviado una solicitud de amistad", "Blase", { timeOut: 2000 })
+    }
+
   }
 
   async onClickAddFriend(friend: any) {
@@ -71,7 +107,7 @@ export class SearchComponent implements OnInit {
       profilePic: this.user?.photoURL,
       displayNameF: friend?.displayName,
       emailF: friend?.email,
-      userIdF: friend?.uid,
+      userIdF: friend?.userId,
       profilePicF: friend?.profilePic,
     }
 
@@ -82,10 +118,8 @@ export class SearchComponent implements OnInit {
         userIdF: friendReq.userIdF
       }
       await this.getFriends(getFriend);
-      await this.Search();
-      this.toast.success("Se ha agregado a un amigo", "Blase", { timeOut: 2000 })
-    } else {
-
+      this.getRequests(this.getR);
+      this.toast.success("Se ha aceptado la solicitud", "Blase", { timeOut: 2000 })
     }
   }
 

@@ -20,7 +20,7 @@ const login = async (req, res) => {
 
 const logOut = async (req, res) => {
     auth.signOut(auth.getAuth()).then(() => {
-        res.send("Signed out succesfully")
+        res.sendStatus(200)
     }).catch(error => {
         res.send(error)
     });
