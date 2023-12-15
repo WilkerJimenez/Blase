@@ -20,7 +20,7 @@ export class SearchComponent implements OnInit {
 
   user = JSON.parse(localStorage.getItem("usuario") || '{}');
   @Input() friends: any;
-  requests: any;
+  requests: any[] = [];
   notFound = true;
   users: any;
 
@@ -65,8 +65,13 @@ export class SearchComponent implements OnInit {
     }
 
     this.socket.getRequests(getRequests).subscribe((change: any) => {
-      let filter = [] = this.body.friends?.filter((item: any) => !change?.includes(item.uid))
-      this.body.friends.push(filter);
+      if (change.length > 0) {
+        change.map((e: any) => {
+          if (e.userId !== this.user?.uid) {
+            this.requests?.push(e)
+          }
+        })
+      }
     })
   }
 
@@ -76,8 +81,10 @@ export class SearchComponent implements OnInit {
       userIdF: uid.userIdF
     }
     this.socket.getNavBar(getFriend).subscribe((change: any) => {
-      let filter = [] = this.body.friends?.filter((item: any) => !change?.includes(item.uid))
-      this.body.friends.push(filter);
+      if (change.length > 0) {
+        let filter = [] = this.body.friends?.filter((item: any) => !change?.includes(item.uid))
+        this.body.friends.push(filter);
+      }
     })
   }
 
@@ -90,9 +97,13 @@ export class SearchComponent implements OnInit {
       profilePic: this.user?.photoURL
     }
 
+    if (this.user.photoURL) friend.profilePic = ''
     let result = await this.search.sendFriendRequest(this.endpointSendRequest, friend);
     if (result?.status === 200) {
-      //this.body.friends.push(req);
+      const friendReq: getRequestsModel = {
+        userId: friend.userIdF
+      }
+      this.getRequests(friendReq);
       this.toast.success("Se ha enviado una solicitud de amistad", "Blase", { timeOut: 2000 })
     }
 

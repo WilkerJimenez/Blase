@@ -8,16 +8,24 @@ const registrar = async (req, res) => {
         displayName: req.body.userName,
         email: req.body.email,
         password: req.body.password,
+        profilePic: req.body.profilePic
     }
 
+    console.log(user)
     await auth.createUserWithEmailAndPassword(auth.getAuth(), user.email, user.password)
-        .then(userCredentials => {
-            res.send(userCredentials);
+        .then(async (userCredentials) => {
+            await auth.updateProfile(auth.getAuth().currentUser, {
+                displayName: user.displayName,
+                photoURL: user.profilePic
+            }).catch(error => {
+                console.log(error)
+            })
+            res.send(userCredentials)
         }).catch(error => {
             if (error.code === "auth/email-already-in-use") {
                 res.sendStatus(409);
             } else {
-                res.sendStatus(502);
+                res.sendStatus(error);
             }
         });
 }

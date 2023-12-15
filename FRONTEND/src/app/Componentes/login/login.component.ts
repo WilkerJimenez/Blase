@@ -33,7 +33,6 @@ export class LoginComponent {
     }
     let result = await this.log.logIn(this.endpoint, this.body);
     if (result?.status === 200) {
-      console.log(result.body?.user);
       localStorage.setItem("usuario", JSON.stringify(result.body?.user));
       this.router.navigate(['/home']);
     } else if (result?.status === 400) {
@@ -46,12 +45,9 @@ export class LoginComponent {
   async onSubmitG() {
     let result = await this.log.logInG();
     if (result?.status === 200) {
-      console.log(result.body?.user);
       localStorage.setItem("usuario", JSON.stringify(result.body?.user))
       this.router.navigate(['/home']);
     } else if (result?.status === 201) {
-
-      console.log(result.body?.user);
       var userF: regisFModel = {
         userName: result.body?.user.displayName,
         email: result.body?.user.email,

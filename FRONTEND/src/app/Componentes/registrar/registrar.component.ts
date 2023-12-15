@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { RegisServicesService } from "../../Servicios/RegisServices/regis-services.service"
 import { LoginServicesService } from "../../Servicios/LoginServices/login-services.service"
-import { regisFModel, regisModel, userModel } from 'src/app/Modelos/models';
+import { regisFModel, regisModel } from 'src/app/Modelos/models';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -20,8 +20,10 @@ export class RegistrarComponent {
   body: regisModel = {
     userName: '',
     email: '',
-    password: ''
+    password: '',
+    profilePic: 'empty'
   }
+
   endpointR = "api/registrar"
   endpointL = "api/login"
   endpointF = "api/registrarToDb"
@@ -52,7 +54,7 @@ export class RegistrarComponent {
         userName: this.body.userName,
         email: this.body.email,
         uid: result.body.user.uid,
-        profilePic: ''
+        profilePic: 'empty'
       }
 
       await this.reg.regisUserF(this.endpointF, userF)

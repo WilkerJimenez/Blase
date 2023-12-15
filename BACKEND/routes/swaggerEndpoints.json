@@ -276,13 +276,14 @@
     "regisRequest": {
       "title": "regisRequest",
       "example": {
-        "userName": "locksly011",
+        "displayName": "locksly011",
         "email": "abc@xyz.com",
-        "password": "abc@123"
+        "password": "abc@123",
+        "profilePic":""
       },
       "type": "object",
       "properties": {
-        "userName": {
+        "displayName": {
           "type": "string"
         },
         "email": {
@@ -290,12 +291,16 @@
         },
         "password": {
           "type": "string"
+        },
+        "profilePic": {
+          "type": "string"
         }
       },
       "required": [
-        "userName",
+        "displayName",
         "email",
-        "password"
+        "password",
+        "profilePic"
       ]
     },
     "regisFRequest": {

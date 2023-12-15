@@ -6,7 +6,8 @@ export interface userModel {
 export interface regisModel {
     userName: string,
     email: string,
-    password: string
+    password: string,
+    profilePic: string
 }
 
 export interface regisFModel {
@@ -51,5 +52,6 @@ export interface getFriendModel {
 }
 
 export interface getRequestsModel {
-    userId: string
+    requestFrom: string,
+    requestTo: string
 }

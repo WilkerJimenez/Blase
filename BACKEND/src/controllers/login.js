@@ -8,7 +8,7 @@ const login = async (req, res) => {
 
     auth.signInWithEmailAndPassword(auth.getAuth(), user.email, user.password)
         .then(userCredentials => {
-            res.json(userCredentials)
+            res.send(userCredentials)
         }).catch(error => {
             if (error.code === "auth/invalid-login-credentials") {
                 res.sendStatus(400)

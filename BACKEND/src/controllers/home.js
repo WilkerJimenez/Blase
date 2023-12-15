@@ -102,7 +102,6 @@ const getFriendsDB = async (userId) => {
     }).catch(error => {
         console.log(error);
     })
-
     return data;
 }
 

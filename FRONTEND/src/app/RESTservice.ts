@@ -9,7 +9,7 @@ export class RestApiCon {
     }
 
     async requestMethod() {
-        let response:{status:number, body:any} = {
+        let response: { status: number, body: any } = {
             body: null,
             status: 0
         };

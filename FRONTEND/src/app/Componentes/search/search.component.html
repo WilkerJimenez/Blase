@@ -34,7 +34,7 @@
                     @for (user of users; track $index) {
                     <div class="flex justify-center gap-x-10 h-44">
                         @if (user.profilePic !== "") {
-                        <div class="flex items-center"><img class="rounded-full w-20 h-20" src="{{user.profilePic}}"
+                        <div class="flex items-center"><img class="rounded-full w-20 h-20" [attr.src]="user.profilePic"
                                 alt=""></div>
                         }@else{
                         <div class="flex items-center"><img class="rounded-full" src="../../../assets/userS.png" alt="">
@@ -62,7 +62,7 @@
             <div class="p-4 rounded bg-[#23132D] font-text w-full justify-items-center text-lg grid grid-rows-2">
                 <div class="row-span-2  w-full flex justify-center gap-4">
                     @if (request.profilePic !== "") {
-                    <img class="rounded-full w-12" src="{{request.profilePic}}" alt="">
+                    <img class="rounded-full w-12" [attr.src]="request.profilePic" alt="">
                     }@else {
                     <img class="rounded-full w-12" src="../../../assets/userS.png" alt="">
                     }
