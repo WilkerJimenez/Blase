@@ -21,15 +21,15 @@ const search = async (userId, friendName) => {
 }
 
 const sendRequest = async (req, res) => {
-    const requestTo = req.body.userIdF;
     const user = {
-        userId: req.body.userId,
+        requestTo: req.body.requestTo,
+        requestFrom: req.body.requestFrom,
         displayName: req.body.displayName,
         profilePic: req.body.profilePic,
         email: req.body.email,
     }
 
-    await db.collection('usuarios').doc(requestTo).collection('requests').doc(user.userId).set(user).then(() => {
+    await db.collection('usuarios').doc(user.requestTo).collection('requests').doc(user.requestFrom).set(user).then(() => {
         res.sendStatus(200)
     }).catch(error => {
         res.sendStatus(502);
@@ -80,9 +80,9 @@ const getFriends = async (req, res) => {
 }
 */
 
-const getRequestsDB = async (userId) => {
+const getRequestsDB = async (request) => {
     var data = [];
-    await db.collection('usuarios').doc(userId).collection('requests').get().then(result => {
+    await db.collection('usuarios').doc(request).collection('requests').get().then(result => {
         result.forEach(doc => {
             data.push(doc.data())
         })

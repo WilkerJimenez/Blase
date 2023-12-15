@@ -31,7 +31,7 @@ export class SearchComponent implements OnInit {
   }
 
   getR: getRequestsModel = {
-    userId: this.user?.uid,
+    userId: this.user?.uid
   }
 
   constructor(private search: SearchServicesService, private toast: ToastrService, private socket: SocketServicesService) {
@@ -60,17 +60,16 @@ export class SearchComponent implements OnInit {
   }
 
   async getRequests(uid: getRequestsModel) {
-    const getRequests: getRequestsModel = {
-      userId: uid.userId,
-    }
 
-    this.socket.getRequests(getRequests).subscribe((change: any) => {
+    this.socket.getRequests(uid).subscribe((change: any) => {
       if (change.length > 0) {
         change.map((e: any) => {
-          if (e.userId !== this.user?.uid) {
-            this.requests?.push(e)
+          if (e.requestTo === this.user?.uid) {
+            this.requests = change
           }
         })
+      } else {
+        this.requests = change
       }
     })
   }
@@ -82,26 +81,25 @@ export class SearchComponent implements OnInit {
     }
     this.socket.getNavBar(getFriend).subscribe((change: any) => {
       if (change.length > 0) {
-        let filter = [] = this.body.friends?.filter((item: any) => !change?.includes(item.uid))
-        this.body.friends.push(filter);
+        this.body.friends = change
       }
     })
   }
 
   async onClickSendRequest(req: any) {
     const friend: sendRequestsModel = {
-      userIdF: req.uid,
-      userId: this.user?.uid,
+      requestTo: req.uid,
+      requestFrom: this.user?.uid,
       displayName: this.user?.displayName,
       email: this.user?.email,
       profilePic: this.user?.photoURL
     }
 
-    if (this.user.photoURL) friend.profilePic = ''
+    if (!this.user.photoURL) friend.profilePic = ''
     let result = await this.search.sendFriendRequest(this.endpointSendRequest, friend);
     if (result?.status === 200) {
       const friendReq: getRequestsModel = {
-        userId: friend.userIdF
+        userId: friend.requestTo
       }
       this.getRequests(friendReq);
       this.toast.success("Se ha enviado una solicitud de amistad", "Blase", { timeOut: 2000 })
@@ -118,7 +116,7 @@ export class SearchComponent implements OnInit {
       profilePic: this.user?.photoURL,
       displayNameF: friend?.displayName,
       emailF: friend?.email,
-      userIdF: friend?.userId,
+      userIdF: friend?.requestFrom,
       profilePicF: friend?.profilePic,
     }
 

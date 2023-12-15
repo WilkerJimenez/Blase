@@ -28,8 +28,8 @@ export interface searchModel {
 }
 
 export interface sendRequestsModel {
-    userId: string,
-    userIdF: string,
+    requestTo: string,
+    requestFrom: string,
     displayName: string,
     profilePic: string,
     email: string
@@ -52,6 +52,5 @@ export interface getFriendModel {
 }
 
 export interface getRequestsModel {
-    requestFrom: string,
-    requestTo: string
+    userId: string
 }
