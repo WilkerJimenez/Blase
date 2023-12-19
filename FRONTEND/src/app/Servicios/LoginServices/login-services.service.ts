@@ -26,6 +26,17 @@ export class LoginServicesService {
     return result;
   }
 
+  logOut(endpoint: string) {
+    let con = new RestApiCon(endpoint, {
+      method: 'GET',
+      headers: { "Content-Type": "application/json" }
+    });
+
+    let result: any = con.requestMethod();
+
+    return result;
+  }
+
   async logInG() {
     let response: { status: number, body: any } = {
       body: null,

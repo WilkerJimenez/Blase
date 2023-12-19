@@ -12,7 +12,7 @@ const login = async (req, res) => {
         }).catch(error => {
             if (error.code === "auth/invalid-login-credentials") {
                 res.sendStatus(400)
-            }else{
+            } else {
                 res.sendStatus(502)
             }
         });

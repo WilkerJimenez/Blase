@@ -8,7 +8,7 @@
             @else if(navigationVar === "chat"){
 
             }@else if(navigationVar === "profile") {
-
+            <perfil></perfil>
             }@else{
             <div class="relative w-full h-full">
                 <div class="absolute bottom-40 right-96">
@@ -49,7 +49,11 @@
                     </div>
                     }@else{
                     <div class="hover:border-r-2 " (click)="onMenuClickSearch('chat')">
+                        @defer {
+
                         <img class="rounded-full" style="cursor: pointer;" [attr.src]="friend.profilePic" alt="">
+
+                        }
                     </div>
                     }
 
@@ -60,10 +64,19 @@
                 </div>
             </div>
 
-            <div class="border-t-2 border-[#68cccc] row-start-4 p-2" (click)="onMenuClickSearch('profile')">
-                <div class="h-fit inline-block borderAnm">
+            <div class="border-t-2 border-[#68cccc] row-start-4 p-2">
+                <div class="h-fit inline-block borderAnm" (click)="showMenu()">
                     <img style="cursor: pointer;" src="../../../assets/blaselogoClear.png" alt="">
                 </div>
+                @if (isShown) {
+                <div class="bottom-10 right-10 w-20 contextMenu absolute rounded bg-[#fff]">
+                    <ul class="w-full font-text text-lg font-bold text-[#000]">
+                        <li class="p-1 rounded hover:bg-[#ccc]" style="cursor: pointer;" (click)="profile()">
+                            Perfil</li>
+                        <li class="p-1 rounded hover:bg-[#ccc]" (click)="logout()" style="cursor: pointer;">Salir</li>
+                    </ul>
+                </div>
+                }
             </div>
         </div>
     </div>
