@@ -29,21 +29,12 @@ export interface searchModel {
 
 export interface sendRequestsModel {
     requestTo: string,
-    requestFrom: string,
-    displayName: string,
-    profilePic: string,
-    email: string
+    requestFrom: string
 }
 
 export interface addFriendModel {
     userId: string,
-    displayName: string,
-    email: string,
-    profilePic: string,
     userIdF: string,
-    displayNameF: string,
-    emailF: string,
-    profilePicF: string,
 }
 
 export interface getFriendModel {
@@ -53,4 +44,9 @@ export interface getFriendModel {
 
 export interface getRequestsModel {
     userId: string
+}
+
+export interface profileModel {
+    displayName: string,
+    profilePic: string
 }

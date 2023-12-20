@@ -3,6 +3,7 @@ const login = require('../src/controllers/login')
 const registrar = require('../src/controllers/registrar')
 const verifySession = require('../src/controllers/auth.js')
 const home = require('../src/controllers/home.js')
+const profile = require('../src/controllers/profile.js')
 
 let router = express.Router();
 
@@ -39,6 +40,10 @@ function routerF(sockets) {
     router
         .route("/addFriend")
         .post(home.addFriend)
+
+    router
+        .route("/profileUpdate")
+        .post(profile.updateUser)
 
     //WS
     sockets.on('connection', (socket) => {

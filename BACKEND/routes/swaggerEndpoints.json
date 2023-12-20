@@ -279,7 +279,7 @@
         "displayName": "locksly011",
         "email": "abc@xyz.com",
         "password": "abc@123",
-        "profilePic":""
+        "profilePic": ""
       },
       "type": "object",
       "properties": {
@@ -387,10 +387,7 @@
       "title": "requestUser",
       "example": {
         "userId": "aEgDvbhpsPecfAGsZ5KFeEF5TCA3",
-        "userIdF": "nKO4ZHXIwrUpm83cEgSQhQGVJEe2",
-        "displayName": "Wil011",
-        "profilePic": "",
-        "email": "abc@xyz.com"
+        "userIdF": "nKO4ZHXIwrUpm83cEgSQhQGVJEe2"
       },
       "type": "object",
       "properties": {
@@ -399,23 +396,11 @@
         },
         "userIdF": {
           "type": "string"
-        },
-        "displayName": {
-          "type": "string"
-        },
-        "profilePic": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
         }
       },
       "required": [
         "userId",
-        "userIdF",
-        "displayName",
-        "profilePic",
-        "email"
+        "userIdF"
       ]
     },
     "addUser": {
@@ -471,7 +456,7 @@
     "getFriend": {
       "title": "getFriend",
       "example": {
-        "userId": "aEgDvbhpsPecfAGsZ5KFeEF5TCA3"
+        "userId": "idJETJxQrZXnvjAkPBfK9vTgggB2"
       },
       "type": "object",
       "properties": {

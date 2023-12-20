@@ -64,7 +64,7 @@ export class SearchComponent implements OnInit {
     this.socket.getRequests(uid).subscribe((change: any) => {
       if (change.length > 0) {
         change.map((e: any) => {
-          if (e.requestTo === this.user?.uid) {
+          if (e.uid !== this.user?.uid) {
             this.requests = change
           }
         })
@@ -89,13 +89,9 @@ export class SearchComponent implements OnInit {
   async onClickSendRequest(req: any) {
     const friend: sendRequestsModel = {
       requestTo: req.uid,
-      requestFrom: this.user?.uid,
-      displayName: this.user?.displayName,
-      email: this.user?.email,
-      profilePic: this.user?.photoURL
+      requestFrom: this.user?.uid
     }
 
-    if (!this.user.photoURL) friend.profilePic = ''
     let result = await this.search.sendFriendRequest(this.endpointSendRequest, friend);
     if (result?.status === 200) {
       const friendReq: getRequestsModel = {
@@ -111,13 +107,7 @@ export class SearchComponent implements OnInit {
 
     const friendReq: addFriendModel = {
       userId: this.user?.uid,
-      displayName: this.user?.displayName,
-      email: this.user?.email,
-      profilePic: this.user?.photoURL,
-      displayNameF: friend?.displayName,
-      emailF: friend?.email,
-      userIdF: friend?.requestFrom,
-      profilePicF: friend?.profilePic,
+      userIdF: friend?.uid,
     }
 
     let result = await this.search.addFriendRequest(this.endpointAddFriend, friendReq);

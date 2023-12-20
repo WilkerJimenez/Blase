@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProfileServicesService } from 'src/app/Servicios/ProfileServices/profile-services.service';
+import { profileModel } from 'src/app/Modelos/models';
 
 @Component({
   selector: 'perfil',
@@ -16,8 +17,9 @@ export class PerfilComponent {
   userImg = this.userInfo?.photoURL;
   userName = this.userInfo?.displayName;
 
-  body = {
-    displayName: ''
+  body: profileModel = {
+    displayName: '',
+    profilePic: ''
   }
 
   constructor(private profile: ProfileServicesService) {
@@ -30,5 +32,9 @@ export class PerfilComponent {
 
       }
     }
+  }
+
+  onClickUpdate() {
+    this.profile.updateUser('',this.body)
   }
 }

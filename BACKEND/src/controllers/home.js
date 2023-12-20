@@ -23,10 +23,7 @@ const search = async (userId, friendName) => {
 const sendRequest = async (req, res) => {
     const user = {
         requestTo: req.body.requestTo,
-        requestFrom: req.body.requestFrom,
-        displayName: req.body.displayName,
-        profilePic: req.body.profilePic,
-        email: req.body.email,
+        requestFrom: req.body.requestFrom
     }
 
     await db.collection('usuarios').doc(user.requestTo).collection('requests').doc(user.requestFrom).set(user).then(() => {
@@ -39,18 +36,12 @@ const sendRequest = async (req, res) => {
 
 const addFriend = async (req, res) => {
     const user = {
-        displayName: req.body.displayName,
-        email: req.body.email,
-        userId: req.body.userId,
-        profilePic: req.body.profilePic,
+        userId: req.body.userId
+    }
+    const userF = {
+        userId: req.body.userIdF
     }
 
-    const userF = {
-        displayName: req.body.displayNameF,
-        email: req.body.emailF,
-        userId: req.body.userIdF,
-        profilePic: req.body.profilePicF,
-    }
     await db.collection('usuarios').doc(user.userId).collection('requests').doc(userF.userId).delete().then(() => {
         db.collection('usuarios').doc(user.userId).collection('friends').doc(userF.userId).set(userF).then(() => {
             db.collection('usuarios').doc(userF.userId).collection('friends').doc(user.userId).set(user).then(() => {
@@ -82,10 +73,17 @@ const getFriends = async (req, res) => {
 
 const getRequestsDB = async (request) => {
     var data = [];
+    var uids = [];
     await db.collection('usuarios').doc(request).collection('requests').get().then(result => {
         result.forEach(doc => {
-            data.push(doc.data())
+            uids.push(doc.data());
         })
+    }).then(async () => {
+        for (let uid of uids) {
+            await db.collection('usuarios').doc(uid.requestFrom).get().then(req => {
+                data.push(req.data());
+            })
+        }
     }).catch(error => {
         console.log(error);
     })
@@ -95,10 +93,17 @@ const getRequestsDB = async (request) => {
 
 const getFriendsDB = async (userId) => {
     var data = [];
+    var uids = [];
     await db.collection('usuarios').doc(userId).collection('friends').get().then(result => {
         result.forEach(doc => {
-            data.push(doc.data())
+            uids.push(doc.data().userId);
         })
+    }).then(async () => {
+        for (let uid of uids) {
+            await db.collection('usuarios').doc(uid).get().then(friend => {
+                data.push(friend.data());
+            })
+        }
     }).catch(error => {
         console.log(error);
     })
