@@ -47,6 +47,7 @@ export interface getRequestsModel {
 }
 
 export interface profileModel {
+    id: string,
     displayName: string,
     profilePic: string
 }

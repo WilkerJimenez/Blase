@@ -15,7 +15,7 @@
                 <img class="rounded-full w-96" style="cursor: pointer;" src="../../../assets/user.png" alt="">
             </div>
             }@else {
-            <img class="rounded-full" style="cursor: pointer;" [attr.src]="userImg" alt="">
+            <img class="rounded-full" style="cursor: pointer;" [attr.src]="userImgB" alt="">
             }
         </div>
         <div class="flex h-full justify-center items-center">
@@ -29,7 +29,7 @@
                         placeholder="{{userName}}" required type="text">
                 </div>
                 <div class="w-full">
-                    <button
+                    <button (click)="onClickUpdate()"
                         class="w-full uppercase hover:opacity-80 bg-[#382454] duration-200 font-bold p-2 px-6 rounded-sm">Actualizar
                     </button>
                 </div>

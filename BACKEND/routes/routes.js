@@ -43,7 +43,7 @@ function routerF(sockets) {
 
     router
         .route("/profileUpdate")
-        .post(profile.updateUser)
+        .post(profile.update)
 
     //WS
     sockets.on('connection', (socket) => {
@@ -70,7 +70,7 @@ function routerF(sockets) {
             if (result) {
                 let friendsIds = [];
                 friends?.forEach((element) => {
-                    friendsIds.push(element.userId)
+                    friendsIds.push(element.uid)
                 });
                 let filter = [] = result?.filter((item) => !friendsIds.includes(item.uid))
                 socket.emit('searchFriends', filter)

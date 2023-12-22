@@ -23,5 +23,3 @@ server.listen(port, () => {
     console.log(`Puerto ${port} con vida`);
     docs(app, port);
 });
-
-//WSS

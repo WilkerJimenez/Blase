@@ -31,7 +31,6 @@ export class HomeComponent implements OnInit {
   @Input() friends: any;
 
   constructor(private home: HomeServicesService, private socket: SocketServicesService, private log: LoginServicesService) {
-    this.getFriends();
   }
 
   async getFriends() {
@@ -39,7 +38,8 @@ export class HomeComponent implements OnInit {
       this.friends = change
     })
   }
-  ngOnInit() {
+  async ngOnInit() {
+    await this.getFriends();
   }
 
   onMenuClickSearch(item: string) {
@@ -57,7 +57,6 @@ export class HomeComponent implements OnInit {
 
   logout() {
     const result = this.log.logOut(this.endpointLog)
-    console.log(result);
     localStorage.removeItem("usuario")
     this.router.navigate(['/auth']);
   }

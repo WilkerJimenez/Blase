@@ -8,7 +8,7 @@
             @else if(navigationVar === "chat"){
 
             }@else if(navigationVar === "profile") {
-            <perfil></perfil>
+            <perfil [friends]="friends"></perfil>
             }@else{
             <div class="relative w-full h-full">
                 <div class="absolute bottom-40 right-96">
@@ -51,7 +51,8 @@
                     <div class="hover:border-r-2 " (click)="onMenuClickSearch('chat')">
                         @defer {
 
-                        <img class="rounded-full" style="cursor: pointer;" [attr.src]="friend.profilePic" alt="">
+                        <img class="rounded-full" style="cursor: pointer;" [attr.title]="friend.displayName"
+                            [attr.src]="friend.profilePic" alt="">
 
                         }
                     </div>

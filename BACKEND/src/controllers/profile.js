@@ -1,38 +1,26 @@
 const { admin } = require("../dependencies/dependencies");
-const { auth } = require('../dependencies/dependencies')
+const { auth } = require("../dependencies/dependencies");
 const db = admin.firestore();
 
-const updateUser = (req, res) => {
+const update = (req, res) => {
     const userInfo = {
+        id: req.body.id,
         displayName: req.body.displayName,
         profilePic: req.body.profilePic
     }
 
-    if (userInfo.displayName === '' && userInfo.profilePic !== '') {
-        auth.updateProfile(auth.getAuth().currentUser, {
-            photoURL: user.profilePic
-        }).then(()=>{
-            
-        })
-        .catch(error => {
-            console.log(error)
-        })
-    } else if (userInfo.displayName !== '' && userInfo.profilePic === '') {
-        auth.updateProfile(auth.getAuth().currentUser, {
-            displayName: user.displayName
-        }).catch(error => {
-            console.log(error)
-        })
-    } else {
-        auth.updateProfile(auth.getAuth().currentUser, {
-            displayName: user.displayName,
-            photoURL: user.profilePic
-        }).catch(error => {
-            console.log(error)
-        })
-    }
+    auth.updateProfile(auth.getAuth().currentUser, {
+        photoURL: userInfo.profilePic,
+        displayName: userInfo.displayName
+    }).then(() => {
+        db.collection("usuarios").doc(userInfo.id).update(userInfo);
+        res.sendStatus(200)
+    }).catch(error => {
+        console.log(error)
+    })
+
 }
 
 module.exports = {
-    updateUser
+    update
 }
