@@ -42,6 +42,7 @@ export class SearchComponent implements OnInit {
   }
 
   async Search() {
+    this.body.friends = this.friends;
     if (this.body.friendName === '') {
       this.users = "";
       this.notFound = true;

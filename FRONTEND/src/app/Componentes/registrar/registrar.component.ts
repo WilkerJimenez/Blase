@@ -21,7 +21,7 @@ export class RegistrarComponent {
     userName: '',
     email: '',
     password: '',
-    profilePic: 'empty'
+    profilePic: 'https://empty.com'
   }
 
   endpointR = "api/registrar"
@@ -54,7 +54,7 @@ export class RegistrarComponent {
         userName: this.body.userName,
         email: this.body.email,
         uid: result.body.user.uid,
-        profilePic: 'empty'
+        profilePic: 'https://empty.com'
       }
 
       await this.reg.regisUserF(this.endpointF, userF)

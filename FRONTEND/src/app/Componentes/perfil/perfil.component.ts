@@ -29,7 +29,7 @@ export class PerfilComponent implements OnInit {
   }
 
   constructor(private profile: ProfileServicesService, private toast: ToastrService, private socket: SocketServicesService) {
-    if (this.userImg !== "empty" || this.userImg !== "") {
+    if (this.userImg !== "https://empty.com" || this.userImg !== "") {
       if (this.userImg?.includes("https://lh3.googleusercontent.com")) {
         const biggerResolution = "s400-c";
         const original = "s96-c";
@@ -40,6 +40,11 @@ export class PerfilComponent implements OnInit {
     }
   }
   ngOnInit() {
+  }
+
+  selectImg(event: any) {
+    var pathFile = event.target.files[0];
+    console.log(pathFile)
   }
 
   async onClickUpdate() {

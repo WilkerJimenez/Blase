@@ -43,16 +43,17 @@
                 <div class="grid grid-rows-2 p-2 gap-4 flex-grow-0 overflow-auto">
                     @if(friends){
                     @for (friend of friends; track $index) {
-                    @if (friend.profilePic === "empty" || friend.profilePic === "") {
+                    @if (friend.profilePic === "https://empty.com" || friend.profilePic === "") {
                     <div class="hover:border-r-2 " (click)="onMenuClickSearch('chat')">
-                        <img class="rounded-full" style="cursor: pointer;" src="../../../assets/userS.png" alt="">
+                        <img class="rounded-full" style="cursor: pointer;" [title]="friend.displayName"
+                            src="../../../assets/userS.png" alt="">
                     </div>
                     }@else{
                     <div class="hover:border-r-2 " (click)="onMenuClickSearch('chat')">
                         @defer {
 
-                        <img class="rounded-full" style="cursor: pointer;" [attr.title]="friend.displayName"
-                            [attr.src]="friend.profilePic" alt="">
+                        <img class="rounded-full" style="cursor: pointer;" [title]="friend.displayName"
+                            [src]="friend.profilePic" alt="">
 
                         }
                     </div>

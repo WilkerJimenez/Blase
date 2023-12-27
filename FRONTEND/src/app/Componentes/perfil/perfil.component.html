@@ -10,13 +10,16 @@
     </div>
     <div class="w-full justify-items-center grid grid-cols-2 p-10">
         <div class="h-full flex items-center">
-            @if (userImg === "empty" || userImg === "") {
+            <input id="multimedia" (change)="selectImg($event)" style="display: none;" type="file">
             <div class="">
-                <img class="rounded-full w-96" style="cursor: pointer;" src="../../../assets/user.png" alt="">
+                <label for="multimedia" type="button">
+                    @if (userImg === "https://empty.com" || userImg === "") {
+                    <img class="rounded-full w-96" style="cursor: pointer;" src="../../../assets/user.png" alt="">
+                    }@else {
+                    <img class="rounded-full" style="cursor: pointer;" [src]="userImgB" alt="">
+                    }
+                </label>
             </div>
-            }@else {
-            <img class="rounded-full" style="cursor: pointer;" [attr.src]="userImgB" alt="">
-            }
         </div>
         <div class="flex h-full justify-center items-center">
             <div class="w-full">
