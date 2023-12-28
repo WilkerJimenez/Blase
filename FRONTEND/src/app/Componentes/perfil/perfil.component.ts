@@ -1,25 +1,29 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProfileServicesService } from 'src/app/Servicios/ProfileServices/profile-services.service';
 import { getFriendModel, profileModel } from 'src/app/Modelos/models';
 import { ToastrService } from 'ngx-toastr';
 import { SocketServicesService } from 'src/app/Servicios/SocketServices/socket-services.service';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 @Component({
   selector: 'perfil',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ImageCropperModule],
   templateUrl: './perfil.component.html',
   styleUrl: './perfil.component.css'
 })
 export class PerfilComponent implements OnInit {
+  @ViewChild('inputFile')
+  myInputVariable!: ElementRef;
   @Input() friends: any;
   userInfo = JSON.parse(localStorage.getItem("usuario") || '{}');
   userUid = this.userInfo?.uid;
   userImg = this.userInfo?.photoURL;
   userImgB = '';
   userName = this.userInfo?.displayName;
+  clickedImg = false;
   endpoint = "api/profileUpdate"
 
   body: profileModel = {
@@ -43,8 +47,14 @@ export class PerfilComponent implements OnInit {
   }
 
   selectImg(event: any) {
-    var pathFile = event.target.files[0];
-    console.log(pathFile)
+    //var pathFile = event.target.files[0];
+    this.clickedImg = true;
+    this.userImg = event
+  }
+
+  closeSelector() {
+    this.myInputVariable.nativeElement.value = "";
+    this.clickedImg = false
   }
 
   async onClickUpdate() {

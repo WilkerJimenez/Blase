@@ -4,13 +4,43 @@
     }
 </style>
 
+@if (clickedImg === true) {
+<div class="absolute overflow-hidden backdrop-blur-sm bg-black/40 min-h-screen w-full flex items-center"
+    style="z-index: 9998;">
+    <div class="w-full overflow-hidden rounded grid grid-rows-1 justify-center">
+        <div class="grid grid-cols-2 grid-flow-col">
+            <span class="col-span-2" (click)="closeSelector()">
+                <svg xmlns="http://www.w3.org/2000/svg" style="cursor: pointer;" fill="currentColor"
+                    class="w-14 bi bi-x" viewBox="0 0 16 16">
+                    <path
+                        d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+                </svg>
+            </span>
+            <span class="col-span-2">
+                <svg xmlns="http://www.w3.org/2000/svg" style="cursor: pointer;" fill="currentColor"
+                    class="w-14 bi bi-check2" viewBox="0 0 16 16">
+                    <path
+                        d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" />
+                </svg>
+            </span>
+        </div>
+        <div class="w-96">
+            <image-cropper class="rounded-full" [alignImage]="'center'" [roundCropper]="true" [hideResizeSquares]="true"
+                [cropperMinWidth]="400" [cropperMaxWidth]="400" [cropperMinHeight]="400" [cropperMaxHeight]="400"
+                [imageChangedEvent]="userImg" [maintainAspectRatio]="false" [aspectRatio]="1 / 1" format="png"
+                [resizeToWidth]="400" [resizeToHeight]="400" [aspectRatio]="1/1"></image-cropper>
+        </div>
+    </div>
+</div>
+}
+
 <div class="w-full h-full contenedor font-textShow text-xl">
     <div class="p-20 text-4xl uppercase tracking-widest	">
         Perfil
     </div>
     <div class="w-full justify-items-center grid grid-cols-2 p-10">
         <div class="h-full flex items-center">
-            <input id="multimedia" (change)="selectImg($event)" style="display: none;" type="file">
+            <input #inputFile id="multimedia" (change)="selectImg($event)" style="display: none;" type="file">
             <div class="">
                 <label for="multimedia" type="button">
                     @if (userImg === "https://empty.com" || userImg === "") {

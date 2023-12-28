@@ -4,6 +4,8 @@ import { AngularFireModule } from '@angular/fire/compat'
 import { AngularFireAuthModule } from '@angular/fire/compat/auth'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { ImageCropperModule } from 'ngx-image-cropper';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -31,6 +33,7 @@ import { firebaseConfig } from './firebaseConfig';
         LoginComponent,
         InicioComponent,
         RegistrarComponent,
+        ImageCropperModule,
         AuthContainerComponent,
         AngularFireModule.initializeApp(firebaseConfig),
         AngularFireAuthModule,
