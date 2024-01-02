@@ -5,6 +5,7 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { AngularFireStorageModule, BUCKET } from '@angular/fire/compat/storage';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -37,6 +38,7 @@ import { firebaseConfig } from './firebaseConfig';
         AuthContainerComponent,
         AngularFireModule.initializeApp(firebaseConfig),
         AngularFireAuthModule,
+        AngularFireStorageModule
     ]
 })
 export class AppModule { }

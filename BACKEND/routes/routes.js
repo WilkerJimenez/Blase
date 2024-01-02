@@ -70,9 +70,9 @@ function routerF(sockets) {
             if (result) {
                 let friendsIds = [];
                 friends?.forEach((element) => {
-                    friendsIds.push(element.uid)
+                    friendsIds.push(element?.uid)
                 });
-                let filter = [] = result?.filter((item) => !friendsIds.includes(item.uid))
+                let filter = [] = result?.filter((item) => !friendsIds?.includes(item?.uid))
                 socket.emit('searchFriends', filter)
             } else {
                 socket.emit('searchFriends', result)

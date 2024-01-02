@@ -5,7 +5,8 @@ import { ProfileServicesService } from 'src/app/Servicios/ProfileServices/profil
 import { getFriendModel, profileModel } from 'src/app/Modelos/models';
 import { ToastrService } from 'ngx-toastr';
 import { SocketServicesService } from 'src/app/Servicios/SocketServices/socket-services.service';
-import { ImageCropperModule } from 'ngx-image-cropper';
+import { ImageCropperModule, ImageTransform } from 'ngx-image-cropper';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 
 @Component({
   selector: 'perfil',
@@ -21,10 +22,16 @@ export class PerfilComponent implements OnInit {
   userInfo = JSON.parse(localStorage.getItem("usuario") || '{}');
   userUid = this.userInfo?.uid;
   userImg = this.userInfo?.photoURL;
-  userImgB = '';
   userName = this.userInfo?.displayName;
   clickedImg = false;
+  displayImg: any;
+  newImg: any;
+  storageRef: any;
+  file!: Blob;
   endpoint = "api/profileUpdate"
+  transform: ImageTransform = {
+    translateUnit: 'px'
+  };
 
   body: profileModel = {
     id: this.userUid,
@@ -32,14 +39,17 @@ export class PerfilComponent implements OnInit {
     profilePic: this.userImg
   }
 
-  constructor(private profile: ProfileServicesService, private toast: ToastrService, private socket: SocketServicesService) {
+  constructor(private profile: ProfileServicesService, private toast: ToastrService, private socket: SocketServicesService,
+    private storage: AngularFireStorage) {
+
+    this.storageRef = this.storage.ref(`UserMedia/ProfilePics/${this.userUid}/`);
     if (this.userImg !== "https://empty.com" || this.userImg !== "") {
       if (this.userImg?.includes("https://lh3.googleusercontent.com")) {
         const biggerResolution = "s400-c";
         const original = "s96-c";
-        this.userImgB = this.userImg?.replace(original, biggerResolution)
+        this.displayImg = this.userImg?.replace(original, biggerResolution)
       } else {
-
+        this.displayImg = this.userImg
       }
     }
   }
@@ -48,13 +58,24 @@ export class PerfilComponent implements OnInit {
 
   selectImg(event: any) {
     //var pathFile = event.target.files[0];
+    if (!event || event === '' || !event.target.files[0]) return
     this.clickedImg = true;
     this.userImg = event
   }
 
   closeSelector() {
     this.myInputVariable.nativeElement.value = "";
-    this.clickedImg = false
+    this.clickedImg = false;
+  }
+
+  crop(event: any) {
+    this.file = event.blob;
+    this.newImg = event;
+  }
+
+  updateImg() {
+    this.displayImg = this.newImg?.objectUrl;
+    this.clickedImg = false;
   }
 
   async onClickUpdate() {
@@ -64,20 +85,43 @@ export class PerfilComponent implements OnInit {
       profilePic: this.userImg
     }
 
-    if (this.body.displayName === '' || this.body.profilePic === '') {
-      this.body.displayName = this.userName
-      this.body.profilePic = this.userImg
-    }
-
     if (this.body.displayName === validate.displayName && this.body.profilePic === validate.profilePic) {
       return
-    } else {
+    } else if (this.body.profilePic !== validate.profilePic) {
+      this.storage.upload(`UserMedia/ProfilePics/${this.userUid}/${this.userUid}`, this.file).then(async image => {
+
+        await image.ref.getDownloadURL().then(url => {
+          this.body.profilePic = url;
+        })
+        const result = await this.profile.updateUser(this.endpoint, this.body)
+        if (result?.status === 200) {
+          this.userInfo.displayName = this.body.displayName;
+          this.userInfo.photoURL = this.body.profilePic;
+          localStorage.setItem('usuario', JSON.stringify(this.userInfo))
+          this.userImg = this.userInfo?.photoURL;
+          this.userName = this.userInfo?.displayName;
+
+          for (let friend of this.friends) {
+            const getFriend: getFriendModel = {
+              userId: friend.uid,
+              userIdF: ''
+            }
+            await this.socket.getNavBar(getFriend).subscribe((change: any) => {
+              if (change.length > 0) {
+              }
+            });
+          }
+          this.toast.success("Perfil actualizado", "Blase", { timeOut: 2000 })
+        }
+      });
+
+    }
+    else {
       const result = await this.profile.updateUser(this.endpoint, this.body)
+
       if (result?.status === 200) {
         this.userInfo.displayName = this.body.displayName;
-        this.userInfo.photoURL = this.body.profilePic;
         localStorage.setItem('usuario', JSON.stringify(this.userInfo))
-        this.userImg = this.userInfo?.photoURL;
         this.userName = this.userInfo?.displayName;
 
         for (let friend of this.friends) {

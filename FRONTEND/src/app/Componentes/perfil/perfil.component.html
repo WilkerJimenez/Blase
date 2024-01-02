@@ -18,7 +18,8 @@
             </span>
             <span class="col-span-2">
                 <svg xmlns="http://www.w3.org/2000/svg" style="cursor: pointer;" fill="currentColor"
-                    class="w-14 bi bi-check2" viewBox="0 0 16 16">
+                    class="w-14 bi bi-check2" viewBox="0 0 16 16"
+                    (click)="updateImg()">
                     <path
                         d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" />
                 </svg>
@@ -27,7 +28,10 @@
         <div class="w-96">
             <image-cropper class="rounded-full" [alignImage]="'center'" [roundCropper]="true" [hideResizeSquares]="true"
                 [cropperMinWidth]="400" [cropperMaxWidth]="400" [cropperMinHeight]="400" [cropperMaxHeight]="400"
-                [imageChangedEvent]="userImg" [maintainAspectRatio]="false" [aspectRatio]="1 / 1" format="png"
+                [imageChangedEvent]="userImg"
+                (imageCropped)="crop($event)"
+                [(transform)]="transform"
+                 [maintainAspectRatio]="false" [aspectRatio]="1 / 1" format="png"
                 [resizeToWidth]="400" [resizeToHeight]="400" [aspectRatio]="1/1"></image-cropper>
         </div>
     </div>
@@ -46,7 +50,7 @@
                     @if (userImg === "https://empty.com" || userImg === "") {
                     <img class="rounded-full w-96" style="cursor: pointer;" src="../../../assets/user.png" alt="">
                     }@else {
-                    <img class="rounded-full" style="cursor: pointer;" [src]="userImgB" alt="">
+                    <img class="rounded-full" style="cursor: pointer;" [src]="displayImg" alt="">
                     }
                 </label>
             </div>
