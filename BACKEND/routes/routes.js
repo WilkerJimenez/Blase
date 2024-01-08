@@ -69,7 +69,7 @@ function routerF(sockets) {
             const result = [] = await home.search(data.userId, data.friendName);
             if (result) {
                 let friendsIds = [];
-                friends?.forEach((element) => {
+                friends.forEach((element) => {
                     friendsIds.push(element?.uid)
                 });
                 let filter = [] = result?.filter((item) => !friendsIds?.includes(item?.uid))

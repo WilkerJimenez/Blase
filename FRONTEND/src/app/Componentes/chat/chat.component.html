@@ -1,0 +1,49 @@
+<style>
+    input:focus {
+        outline: none;
+    }
+</style>
+
+<div class="w-full h-full contenedor bg-fixed grid grid-rows-[max-content_1fr] grid-flow-row">
+    <div class="w-full text-xl row-start-1 font-textShow p-1 bg-[#382454]">
+        <div class="flex items-center">
+            @if (friend.profilePic === "https://empty.com" || friend.profilePic === "") {
+            <img class="rounded-full w-14" src="../../../assets/userS.png" alt="">
+            }@else {
+            <img class="rounded-full w-14" [src]="friend.profilePic" alt="">
+            }
+            <span class="pl-4">{{friend.displayName}}</span>
+        </div>
+    </div>
+
+    <div class="w-full p-10">
+        chat
+    </div>
+
+    <div class="w-full bg-[#301c3c] p-4">
+        <form class="duration-200 font-text text-lg ">
+            <div class="flex flex-nowrap items-stretch relative">
+                <input name="mensaje" [(ngModel)]="body.mensaje"
+                    class="w-full p-2 border-b rounded-l bg-inherit duration-200"
+                    placeholder="Enviar mensaje" required type="text">
+
+                <span class="p-1 flex items-center border-b duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                        class="bi bi-send hover:fill-[#68cccc] duration-200" viewBox="0 0 16 16" style="cursor: pointer;">
+                        <path
+                            d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z" />
+                    </svg>
+                </span>
+
+                <span class="p-1 flex items-center duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor"
+                        class="bi bi-patch-plus-fill hover:fill-[#68cccc] duration-200" viewBox="0 0 16 16"
+                        style="cursor: pointer;">
+                        <path
+                            d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01zM8.5 6v1.5H10a.5.5 0 0 1 0 1H8.5V10a.5.5 0 0 1-1 0V8.5H6a.5.5 0 0 1 0-1h1.5V6a.5.5 0 0 1 1 0" />
+                    </svg>
+                </span>
+            </div>
+        </form>
+    </div>
+</div>

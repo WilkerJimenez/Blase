@@ -7,13 +7,14 @@ import { getFriendModel } from '../../Modelos/models'
 import { PerfilComponent } from "../perfil/perfil.component";
 import { LoginServicesService } from 'src/app/Servicios/LoginServices/login-services.service';
 import { Router } from '@angular/router';
+import { ChatComponent } from "../chat/chat.component";
 
 @Component({
   selector: 'home',
   standalone: true,
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
-  imports: [CommonModule, SearchComponent, PerfilComponent]
+  imports: [CommonModule, SearchComponent, PerfilComponent, ChatComponent]
 })
 
 export class HomeComponent implements OnInit {
@@ -29,21 +30,28 @@ export class HomeComponent implements OnInit {
   };
 
   @Input() friends: any;
+  @Input() sendFriend: any;
 
   constructor(private home: HomeServicesService, private socket: SocketServicesService, private log: LoginServicesService) {
+    this.getFriends();
   }
 
-  async getFriends() {
+  getFriends() {
     this.socket.getNavBar(this.body).subscribe((change) => {
       this.friends = change
     })
   }
-  async ngOnInit() {
-    await this.getFriends();
+
+  ngOnInit() {
   }
 
   onMenuClickSearch(item: string) {
     this.navigationVar = item;
+  }
+
+  openChat(friend: any) {
+    this.navigationVar = 'chat';
+    this.sendFriend = friend;
   }
 
   showMenu() {

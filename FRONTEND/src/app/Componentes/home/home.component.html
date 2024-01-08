@@ -4,10 +4,10 @@
         <div class="col-span-2 w-full h-full">
             @if (navigationVar === "search") {
             <search [friends]="friends"></search>
+            }@else if(navigationVar === "chat") {
+            <chat [friend]="sendFriend"></chat>
             }
-            @else if(navigationVar === "chat"){
-
-            }@else if(navigationVar === "profile") {
+            @else if(navigationVar === "profile") {
             <perfil [friends]="friends"></perfil>
             }@else{
             <div class="relative w-full h-full">
@@ -32,7 +32,7 @@
 
         </div>
 
-        <div class="right-0 bg-[#382454] min-h-screen w-16 max-w-16 grid grid-rows-3">
+        <div class="right-0 bg-[#382454] min-h-screen w-16 max-w-16 grid grid-rows-[max-content_1fr]">
             <div class="border-b-2 row-end-1 border-[#68cccc] ">
                 <div class="flex justify-center items-center py-2 h-fit">
                     <img class=" w-10 h-10 hover:rotate-12 duration-200" (click)="onMenuClickSearch('search')"
@@ -40,28 +40,23 @@
                 </div>
             </div>
             <div class="row-span-2">
-                <div class="grid grid-rows-2 p-2 gap-4 flex-grow-0 overflow-auto">
+                <div class="grid grid-rows-[max-content_1fr] p-2 gap-4 flex-grow-0 overflow-auto">
                     @if(friends){
                     @for (friend of friends; track $index) {
-                    @if (friend.profilePic === "https://empty.com" || friend.profilePic === "") {
-                    <div class="hover:border-r-2 " (click)="onMenuClickSearch('chat')">
+                    <div class="hover:border-r-2 " (click)="openChat(friend)">
+                        @if (friend?.profilePic === "https://empty.com" || friend?.profilePic === "") {
                         <img class="rounded-full" style="cursor: pointer;" [title]="friend.displayName"
                             src="../../../assets/userS.png" alt="">
-                    </div>
-                    }@else{
-                    <div class="hover:border-r-2 " (click)="onMenuClickSearch('chat')">
+                        }@else{
                         @defer {
-
-                        <img class="rounded-full" style="cursor: pointer;" [title]="friend.displayName"
-                            [src]="friend.profilePic" alt="">
+                        <img class="rounded-full" style="cursor: pointer;" [title]="friend?.displayName"
+                            [src]="friend?.profilePic" alt="">
 
                         }
+                        }
+
                     </div>
                     }
-
-                    }
-                    }@else {
-
                     }
                 </div>
             </div>

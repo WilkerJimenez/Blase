@@ -51,3 +51,14 @@ export interface profileModel {
     displayName: string,
     profilePic: string
 }
+
+export interface sendMessage {
+    emisor: string,
+    fecha: string,
+    mensaje: string,
+    orden: number,
+    visto: boolean,
+    mensajeResp: any,
+    fileName: any,
+    url: any
+}
