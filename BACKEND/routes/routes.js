@@ -46,7 +46,19 @@ function routerF(sockets) {
         .post(profile.update)
 
     //WS
+    var connections = [];
     sockets.on('connection', (socket) => {
+
+        socket.on('disconnect', (data) => {
+            connections.forEach(connection => {
+                var cont = 0;
+                if (connection.socketId === socket.id) {
+                    connections.splice(cont, 1)
+                }
+                cont++;
+            })
+        });
+
         socket.on('getFriends', async (data) => {
             if (data.userIdF !== '') {
                 const result = await home.getFriendsDB(data.userId);
@@ -54,8 +66,34 @@ function routerF(sockets) {
                 sockets.emit(`getFriends${data.userId}`, result)
                 sockets.emit(`getFriends${data.userIdF}`, resultF)
             } else {
+                if (connections.length === 0) {
+                    const conValues = {
+                        socketId: socket.id,
+                        userId: data.userId
+                    }
+                    connections.push(conValues);
+                } else {
+                    connections.forEach(connection => {
+                        if (connection.userId !== data.userId) {
+                            const conValues = {
+                                socketId: socket.id,
+                                userId: data.userId
+                            }
+                            connections.push(conValues);
+                        }
+                    })
+                }
                 const result = await home.getFriendsDB(data.userId);
                 sockets.emit(`getFriends${data.userId}`, result)
+            }
+        })
+
+        socket.on('updateFriends', async (data) => {
+            for (connection of connections) {
+                if (connection.userId === data?.userIdF) {
+                    const resultF = await home.getFriendsDB(data.userIdF);
+                    sockets.emit(`getFriends${data.userIdF}`, resultF)
+                }
             }
         })
 
@@ -83,4 +121,5 @@ function routerF(sockets) {
 
     return router;
 }
+
 module.exports = routerF;

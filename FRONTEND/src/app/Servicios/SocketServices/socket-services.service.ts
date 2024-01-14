@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as socketIo from 'socket.io-client';
 import { Observable } from 'rxjs';
-import { getFriendModel, getRequestsModel, searchModel } from '../../Modelos/models'
+import { getFriendModel, getRequestsModel, searchModel, updateFriend } from '../../Modelos/models'
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +20,14 @@ export class SocketServicesService {
       this.socket.on(`getFriends${body.userId}`, data => {
         subscribe.next(data);
       })
+    })
+  }
+
+  updateFriend(body: updateFriend) {
+    return new Observable(subscribe => {
+      this.socket.on('connect', () => {
+      })
+      this.socket.emit('updateFriends', body)
     })
   }
 

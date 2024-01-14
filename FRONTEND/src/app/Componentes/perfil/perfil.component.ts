@@ -2,7 +2,7 @@ import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProfileServicesService } from 'src/app/Servicios/ProfileServices/profile-services.service';
-import { getFriendModel, profileModel } from 'src/app/Modelos/models';
+import { getFriendModel, profileModel, updateFriend } from 'src/app/Modelos/models';
 import { ToastrService } from 'ngx-toastr';
 import { SocketServicesService } from 'src/app/Servicios/SocketServices/socket-services.service';
 import { ImageCropperModule, ImageTransform } from 'ngx-image-cropper';
@@ -27,7 +27,7 @@ export class PerfilComponent implements OnInit {
   displayImg: any;
   newImg: any;
   storageRef: any;
-  file!: Blob;
+  file: any;
   endpoint = "api/profileUpdate"
   transform: ImageTransform = {
     translateUnit: 'px'
@@ -65,6 +65,7 @@ export class PerfilComponent implements OnInit {
 
   closeSelector() {
     this.myInputVariable.nativeElement.value = "";
+    this.displayImg = this.userInfo?.photoURL;
     this.clickedImg = false;
   }
 
@@ -89,7 +90,6 @@ export class PerfilComponent implements OnInit {
       return
     } else if (this.body.profilePic !== validate.profilePic) {
       this.storage.upload(`UserMedia/ProfilePics/${this.userUid}/${this.userUid}`, this.file).then(async image => {
-
         await image.ref.getDownloadURL().then(url => {
           this.body.profilePic = url;
         })
@@ -102,15 +102,12 @@ export class PerfilComponent implements OnInit {
           this.userName = this.userInfo?.displayName;
 
           for (let friend of this.friends) {
-            const getFriend: getFriendModel = {
-              userId: friend.uid,
-              userIdF: ''
+            const getFriend: updateFriend = {
+              userIdF: friend.uid
             }
-            await this.socket.getNavBar(getFriend).subscribe((change: any) => {
-              if (change.length > 0) {
-              }
-            });
+            await this.socket.updateFriend(getFriend).subscribe();
           }
+
           this.toast.success("Perfil actualizado", "Blase", { timeOut: 2000 })
         }
       });

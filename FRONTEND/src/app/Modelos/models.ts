@@ -42,6 +42,10 @@ export interface getFriendModel {
     userIdF: string,
 }
 
+export interface updateFriend {
+    userIdF: string,
+}
+
 export interface getRequestsModel {
     userId: string
 }
