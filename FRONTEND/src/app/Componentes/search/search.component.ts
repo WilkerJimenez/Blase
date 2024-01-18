@@ -24,7 +24,7 @@ export class SearchComponent implements OnInit {
   notFound = true;
   users: any;
 
-  body: searchModel = {
+  srch: searchModel = {
     userId: this.user?.uid,
     friendName: '',
     friends: []
@@ -38,17 +38,17 @@ export class SearchComponent implements OnInit {
     this.getRequests(this.getR);
   }
   ngOnInit() {
-    this.body.friends = this.friends;
+    this.srch.friends = this.friends;
   }
 
   async Search() {
-    this.body.friends = this.friends;
-    if (this.body.friendName === '') {
+    this.srch.friends = this.friends;
+    if (this.srch.friendName === '') {
       this.users = "";
       this.notFound = true;
     } else {
       setTimeout(() => {
-        this.socket.searchFriends(this.body).subscribe((change: any) => {
+        this.socket.searchFriends(this.srch).subscribe((change: any) => {
           if (Object.keys(change).length > 0) {
             this.users = change;
             this.notFound = false;
@@ -82,7 +82,7 @@ export class SearchComponent implements OnInit {
     }
     this.socket.getNavBar(getFriend).subscribe((change: any) => {
       if (change.length > 0) {
-        this.body.friends = change
+        this.srch.friends = change
       }
     })
   }

@@ -50,6 +50,10 @@ export interface getRequestsModel {
     userId: string
 }
 
+export interface getMessages {
+    chatId: string
+}
+
 export interface profileModel {
     id: string,
     displayName: string,
@@ -57,8 +61,9 @@ export interface profileModel {
 }
 
 export interface sendMessage {
+    chatId: string,
     emisor: string,
-    fecha: string,
+    fecha: any,
     mensaje: string,
     orden: number,
     visto: boolean,

@@ -4,8 +4,8 @@
     }
 </style>
 
-<div class="w-full h-full contenedor bg-fixed grid grid-rows-[max-content_1fr] grid-flow-row">
-    <div class="w-full text-xl row-start-1 font-textShow p-1 bg-[#382454]">
+<div class="contenedor w-full min-h-screen bg-fixed">
+    <div class="w-full flex text-xl font-textShow p-1 bg-[#382454]">
         <div class="flex items-center">
             @if (friend.profilePic === "https://empty.com" || friend.profilePic === "") {
             <img class="rounded-full w-14" src="../../../assets/userS.png" alt="">
@@ -16,20 +16,62 @@
         </div>
     </div>
 
-    <div class="w-full p-10">
-        chat
+    <div class="p-10 overflow-y-auto w-full h-96">
+        @for (msg of message; track $index) {
+        <div (dblclick)="replayMsg(msg?.mensaje)" class="w-full grid grid-rows-[max-content_1fr] pb-4">
+            @if (msg.emisor === userInfo?.uid) {
+            <div class="flex justify-end max-w-20 ">
+                <div class="top-0 bg-[#23132d] max-w-20 text-l font-text rounded-l-lg mensaje p-2"
+                    style="cursor: pointer;">
+                    @if (msg.mensajeResp) {
+                    <div class="bg-[#382454] rounded-sm p-2">
+                        <p class="truncate ">{{msg.mensajeResp}}</p>
+                    </div>
+                    }
+                    <p class="p-2 max-w-sm">{{msg?.mensaje}}</p>
+                </div>
+            </div>
+            <div class="text-sm pt-2 italic opacity-50">
+                <p class="flex justify-end">{{msg.fecha}}</p>
+            </div>
+            }@else {
+            <div class="flex justify-start max-w-20 ">
+                <div class="top-0 bg-[#23132d] max-w-20 text-l font-text rounded-r-lg mensaje p-2"
+                    style="cursor: pointer;">
+                    @if (msg.mensajeResp) {
+                    <div class="bg-[#382454] rounded-sm p-2">
+                        <p class="truncate ">{{msg.mensajeResp}}</p>
+                    </div>
+                    }
+                    <p class="p-2 max-w-sm">{{msg?.mensaje}}</p>
+                </div>
+            </div>
+            <div class="text-sm pt-2 italic opacity-50">
+                <p class="flex justify-start">{{msg.fecha}}</p>
+            </div>
+            }
+        </div>
+        }
+
     </div>
 
-    <div class="w-full bg-[#301c3c] p-4">
-        <form class="duration-200 font-text text-lg ">
+    @if (showReplay && newMessage.mensajeResp !== '') {
+    <div (click)="cancelReplay()" [ngClass]="{'animate-slideIn':!slideDown, 'animate-slideOut':slideDown}"
+        class="w-full p-2 bg-[#23132d]" style="cursor: pointer;">
+        <p class="truncate text-m font-text opacity-50">{{newMessage.mensajeResp}}</p>
+    </div>
+    }
+    <div class="flex w-full bg-[#301c3c] p-4">
+        <form class="w-full duration-200 font-text text-lg ">
             <div class="flex flex-nowrap items-stretch relative">
-                <input name="mensaje" [(ngModel)]="body.mensaje"
-                    class="w-full p-2 border-b rounded-l bg-inherit duration-200"
-                    placeholder="Enviar mensaje" required type="text">
+                <input name="mensaje" [(ngModel)]="newMessage.mensaje"
+                    class="w-full p-2 border-b rounded-l bg-inherit duration-200" placeholder="Enviar mensaje" required
+                    type="text">
 
-                <span class="p-1 flex items-center border-b duration-200">
+                <span (click)="sendMessage()" class="p-1 flex items-center border-b duration-200">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                        class="bi bi-send hover:fill-[#68cccc] duration-200" viewBox="0 0 16 16" style="cursor: pointer;">
+                        class="bi bi-send hover:fill-[#68cccc] duration-200" viewBox="0 0 16 16"
+                        style="cursor: pointer;">
                         <path
                             d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z" />
                     </svg>

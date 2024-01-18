@@ -19,7 +19,7 @@ export class LoginComponent {
   errorMsg: string = "";
   private endpoint = "api/login"
   private endpointF = "api/registrarToDb"
-  body: userModel = {
+  user: userModel = {
     email: '',
     password: ''
   };
@@ -27,11 +27,11 @@ export class LoginComponent {
   constructor(private log: LoginServicesService, private reg: RegisServicesService) { }
 
   async onSubmitLog() {
-    if (this.body.email == '' || this.body.password == '') {
+    if (this.user.email == '' || this.user.password == '') {
       this.errorMsg = "Rellene los campos faltantes.";
       return;
     }
-    let result = await this.log.logIn(this.endpoint, this.body);
+    let result = await this.log.logIn(this.endpoint, this.user);
     if (result?.status === 200) {
       localStorage.setItem("usuario", JSON.stringify(result.body?.user));
       this.router.navigate(['/home']);

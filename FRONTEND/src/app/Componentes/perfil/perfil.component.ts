@@ -33,7 +33,7 @@ export class PerfilComponent implements OnInit {
     translateUnit: 'px'
   };
 
-  body: profileModel = {
+  prof: profileModel = {
     id: this.userUid,
     displayName: this.userName,
     profilePic: this.userImg
@@ -86,17 +86,17 @@ export class PerfilComponent implements OnInit {
       profilePic: this.userImg
     }
 
-    if (this.body.displayName === validate.displayName && this.body.profilePic === validate.profilePic) {
+    if (this.prof.displayName === validate.displayName && this.prof.profilePic === validate.profilePic) {
       return
-    } else if (this.body.profilePic !== validate.profilePic) {
+    } else if (this.prof.profilePic !== validate.profilePic) {
       this.storage.upload(`UserMedia/ProfilePics/${this.userUid}/${this.userUid}`, this.file).then(async image => {
         await image.ref.getDownloadURL().then(url => {
-          this.body.profilePic = url;
+          this.prof.profilePic = url;
         })
-        const result = await this.profile.updateUser(this.endpoint, this.body)
+        const result = await this.profile.updateUser(this.endpoint, this.prof)
         if (result?.status === 200) {
-          this.userInfo.displayName = this.body.displayName;
-          this.userInfo.photoURL = this.body.profilePic;
+          this.userInfo.displayName = this.prof.displayName;
+          this.userInfo.photoURL = this.prof.profilePic;
           localStorage.setItem('usuario', JSON.stringify(this.userInfo))
           this.userImg = this.userInfo?.photoURL;
           this.userName = this.userInfo?.displayName;
@@ -114,10 +114,10 @@ export class PerfilComponent implements OnInit {
 
     }
     else {
-      const result = await this.profile.updateUser(this.endpoint, this.body)
+      const result = await this.profile.updateUser(this.endpoint, this.prof)
 
       if (result?.status === 200) {
-        this.userInfo.displayName = this.body.displayName;
+        this.userInfo.displayName = this.prof.displayName;
         localStorage.setItem('usuario', JSON.stringify(this.userInfo))
         this.userName = this.userInfo?.displayName;
 

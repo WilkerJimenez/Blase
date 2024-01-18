@@ -4,6 +4,7 @@ const registrar = require('../src/controllers/registrar')
 const verifySession = require('../src/controllers/auth.js')
 const home = require('../src/controllers/home.js')
 const profile = require('../src/controllers/profile.js')
+const chat = require('../src/controllers/chat.js')
 
 let router = express.Router();
 
@@ -44,6 +45,10 @@ function routerF(sockets) {
     router
         .route("/profileUpdate")
         .post(profile.update)
+
+    router
+        .route("/enviarMsg")
+        .post(chat.enviarMensaje)
 
     //WS
     var connections = [];
@@ -117,6 +122,11 @@ function routerF(sockets) {
             }
 
         })
+
+        socket.on('getMsgs', async (data) => {
+            const result = [] = await chat.obtenerMensaje(data.chatId);
+            sockets.emit(`getMsgs${data.chatId}`, result)
+        });
     })
 
     return router;

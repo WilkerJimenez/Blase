@@ -270,6 +270,36 @@
           }
         }
       }
+    },
+    "/enviarMsg": {
+      "post": {
+        "summary": "Enviar Mensaje",
+        "tags": [
+          "enviarMsg"
+        ],
+        "operationId": "sendMsg",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/sendMsg"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {}
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -466,6 +496,61 @@
       },
       "required": [
         "userId"
+      ]
+    },
+    "sendMsg": {
+      "title": "sendMsg",
+      "example": {
+        "chatId": "08c87d64-e7ae-4c5c-b488-17cd3c824129",
+        "emisor": "dsrWvwPRGYNM0EfKDhGU7uW4Kex2",
+        "fecha": "102040",
+        "mensaje": "Mensaje",
+        "orden": "16656000",
+        "visto": "false",
+        "mensajeResp": "Respuesta",
+        "fileName": "Documento",
+        "url": "url"
+      },
+      "type": "object",
+      "properties": {
+        "chatId": {
+          "type": "string"
+        },
+        "emisor": {
+          "type": "string"
+        },
+        "fecha": {
+          "type": "string"
+        },
+        "mensaje": {
+          "type": "string"
+        },
+        "orden": {
+          "type": "string"
+        },
+        "visto": {
+          "type": "boolean"
+        },
+        "mensajeResp": {
+          "type": "string"
+        },
+        "fileName": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "chatId",
+        "emisor",
+        "fecha",
+        "mensaje",
+        "orden",
+        "visto",
+        "mensajeResp",
+        "fileName",
+        "url"
       ]
     }
   }

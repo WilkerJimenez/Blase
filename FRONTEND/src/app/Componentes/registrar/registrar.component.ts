@@ -17,7 +17,7 @@ export class RegistrarComponent {
   constructor(private reg: RegisServicesService, private log: LoginServicesService) { }
 
   errorMsg = "";
-  body: regisModel = {
+  regis: regisModel = {
     userName: '',
     email: '',
     password: '',
@@ -38,21 +38,21 @@ export class RegistrarComponent {
   }
 
   async onSubmitRegis() {
-    if (this.body.userName == '' || this.body.email == '' || this.body.password == '' || this.passConfirm == '') {
+    if (this.regis.userName == '' || this.regis.email == '' || this.regis.password == '' || this.passConfirm == '') {
       this.errorMsg = "Rellene los campos faltantes."
       return;
     }
 
-    if (this.passConfirm !== this.body.password) {
+    if (this.passConfirm !== this.regis.password) {
       this.errorMsg = "Las contraseñas son diferentes."
       return;
     }
 
-    let result = await this.reg.regisUser(this.endpointR, this.body);
+    let result = await this.reg.regisUser(this.endpointR, this.regis);
     if (result?.status === 200) {
       var userF: regisFModel = {
-        userName: this.body.userName,
-        email: this.body.email,
+        userName: this.regis.userName,
+        email: this.regis.email,
         uid: result.body.user.uid,
         profilePic: 'https://empty.com'
       }

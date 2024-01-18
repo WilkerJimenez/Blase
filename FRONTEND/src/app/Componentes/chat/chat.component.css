@@ -1,0 +1,31 @@
+/*@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(100%);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideOut {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(100%);
+        display: none;
+    }
+}
+
+.replyMsgIn {
+    animation: slideIn 50ms;
+}
+.replyMsgOut {
+    animation: slideOut 50ms;
+}*/

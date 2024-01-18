@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit {
   navigationVar = "";
   isShown: boolean = false;
   userId = JSON.parse(localStorage.getItem("usuario") || '{}');
-  body: getFriendModel = {
+  getFriend: getFriendModel = {
     userId: this.userId?.uid,
     userIdF: '',
   };
@@ -37,7 +37,7 @@ export class HomeComponent implements OnInit {
   }
 
   getFriends() {
-    this.socket.getNavBar(this.body).subscribe((change) => {
+    this.socket.getNavBar(this.getFriend).subscribe((change) => {
       this.friends = change
     })
   }

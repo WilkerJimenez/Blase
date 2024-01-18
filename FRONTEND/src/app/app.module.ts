@@ -17,13 +17,14 @@ import { AuthContainerComponent } from "./Componentes/auth-container/auth-contai
 import { LoginServicesService } from './Servicios/LoginServices/login-services.service';
 import { FormsModule } from '@angular/forms';
 import { firebaseConfig } from './firebaseConfig';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
     declarations: [
         AppComponent,
 
     ],
-    providers: [LoginServicesService],
+    providers: [LoginServicesService, DatePipe],
     bootstrap: [AppComponent],
     imports: [
         BrowserModule,
