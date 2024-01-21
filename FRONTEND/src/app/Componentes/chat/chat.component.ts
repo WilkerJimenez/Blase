@@ -1,4 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { v4 as uuidv4 } from 'uuid';
+
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
@@ -16,15 +19,24 @@ import { SocketServicesService } from 'src/app/Servicios/SocketServices/socket-s
 export class ChatComponent implements OnInit {
   endpointSendMsg = 'api/enviarMsg'
 
-  constructor(private chat: ChatServicesService, private datePipe: DatePipe, private socket: SocketServicesService) {
+  constructor(private chat: ChatServicesService, private datePipe: DatePipe, private socket: SocketServicesService,
+    private storage: AngularFireStorage) {
   }
 
   @Input() friend: any;
+  @ViewChild('inputFile')
+  myInputVariable!: ElementRef;
   userInfo = JSON.parse(localStorage.getItem("usuario") || '{}');
   chatId = '';
   showReplay = false;
   slideDown = false;
+  selectedFile = false;
   message: any;
+  fileDetails: { fileName: string, file: any } = {
+    fileName: '',
+    file: ''
+  };
+
   newMessage: sendMessage = {
     chatId: '',
     emisor: this.userInfo?.uid,
@@ -51,8 +63,39 @@ export class ChatComponent implements OnInit {
     this.getMessages();
   }
 
+  selectImg(event: any) {
+    if (!event || event === '' || !event.target.files[0]) {
+      this.myInputVariable.nativeElement.value = "";
+      this.fileDetails.file = ''
+      this.fileDetails.fileName = ''
+      this.selectedFile = false;
+    } else {
+      this.fileDetails.file = event.target.files[0];
+      this.fileDetails.fileName = event.target.files[0].name;
+      this.selectedFile = true;
+    }
+  }
+
+  async sendFile() {
+    await this.storage.upload(`UserMedia/Chats/${this.chatId}/${uuidv4()}`, this.fileDetails.file).then(async file => {
+      await file.ref.getDownloadURL().then(url => {
+        this.newMessage.url = url;
+        this.newMessage.fileName = this.fileDetails.fileName;
+      })
+    });
+  }
+
   async sendMessage() {
-    if (this.newMessage.mensaje == "") return;
+    if (this.newMessage.mensaje === "") {
+      if (!this.fileDetails) {
+        return
+      }
+    }
+
+    if (this.fileDetails) {
+      await this.sendFile();
+    }
+
     const myDate = this.datePipe.transform(Date.now(), 'MMM d, y, h:mm a');
     this.newMessage.orden = new Date().getTime();
     this.newMessage.fecha = myDate;
@@ -64,9 +107,18 @@ export class ChatComponent implements OnInit {
     }
   }
 
-  replayMsg(msg: string) {
-    this.newMessage.mensajeResp = msg;
-    this.showReplay = true;
+  Redireccionar(url: string) {
+    window.open(url, '_blank');
+  }
+
+  replayMsg(msg: any) {
+    if (msg.mensaje || msg.mensaje !== "") {
+      this.newMessage.mensajeResp = msg.mensaje;
+      this.showReplay = true;
+    } else if (msg.url) {
+      this.newMessage.mensajeResp = "File";
+      this.showReplay = true;
+    }
   }
 
   cancelReplay() {

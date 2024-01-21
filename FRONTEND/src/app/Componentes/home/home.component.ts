@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SearchComponent } from '../search/search.component';
 import { HomeServicesService } from 'src/app/Servicios/HomeServices/home-services.service';
@@ -23,12 +23,15 @@ export class HomeComponent implements OnInit {
   endpointLog = "api/logout"
   navigationVar = "";
   isShown: boolean = false;
+  chatReady: boolean = true;
   userId = JSON.parse(localStorage.getItem("usuario") || '{}');
   getFriend: getFriendModel = {
     userId: this.userId?.uid,
     userIdF: '',
   };
 
+  @ViewChild(ChatComponent)
+  chatRef: ChatComponent | undefined;
   @Input() friends: any;
   @Input() sendFriend: any;
 
@@ -49,9 +52,16 @@ export class HomeComponent implements OnInit {
     this.navigationVar = item;
   }
 
-  openChat(friend: any) {
-    this.navigationVar = 'chat';
+  async openChat(friend: any) {
+    if (this.navigationVar === 'chat') {
+      this.chatReady = false;
+    }
+    
     this.sendFriend = friend;
+    this.navigationVar = 'chat'
+    setTimeout(() => {
+      this.chatReady = true;
+    }, 50);
   }
 
   showMenu() {

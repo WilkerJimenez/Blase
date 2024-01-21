@@ -5,7 +5,11 @@
             @if (navigationVar === "search") {
             <search [friends]="friends"></search>
             }@else if(navigationVar === "chat") {
+            @if (chatReady === true) {
             <chat [friend]="sendFriend"></chat>
+            }@else{
+            <chat [friend]="sendFriend"></chat>
+            }
             }
             @else if(navigationVar === "profile") {
             <perfil [friends]="friends"></perfil>
