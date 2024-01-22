@@ -86,28 +86,34 @@ export class ChatComponent implements OnInit {
   }
 
   async sendMessage() {
-    if (this.newMessage.mensaje === "") {
-      if (!this.fileDetails) {
-        return
+    if (this.newMessage.mensaje !== "" || this.fileDetails.file !== '') {
+      if (this.fileDetails.file !== '') {
+        await this.sendFile();
       }
-    }
+      const myDate = this.datePipe.transform(Date.now(), 'MMM d, y, h:mm a');
+      this.newMessage.orden = new Date().getTime();
+      this.newMessage.fecha = myDate;
 
-    if (this.fileDetails) {
-      await this.sendFile();
-    }
+      let result = await this.chat.enviarMensaje(this.endpointSendMsg, this.newMessage);
 
-    const myDate = this.datePipe.transform(Date.now(), 'MMM d, y, h:mm a');
-    this.newMessage.orden = new Date().getTime();
-    this.newMessage.fecha = myDate;
-
-    let result = await this.chat.enviarMensaje(this.endpointSendMsg, this.newMessage);
-    if (result.status === 200) {
-      this.newMessage.mensaje = ""
-      this.getMessages();
+      if (result.status === 200) {
+        this.slideDown = false;
+        this.showReplay = false;
+        this.fileDetails.file = ''
+        this.fileDetails.fileName = ''
+        this.selectedFile = false;
+        this.newMessage.mensaje = '';
+        this.newMessage.orden = 0;
+        this.newMessage.mensajeResp = null;
+        this.newMessage.fileName = null;
+        this.newMessage.url = null;
+        this.newMessage.visto = false;
+        this.getMessages();
+      }
     }
   }
 
-  Redireccionar(url: string) {
+  redireccionar(url: string) {
     window.open(url, '_blank');
   }
 
