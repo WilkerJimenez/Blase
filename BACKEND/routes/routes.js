@@ -50,7 +50,11 @@ function routerF(sockets) {
         .route("/enviarMsg")
         .post(chat.enviarMensaje)
 
+    router
+        .route("/seen")
+        .post(chat.seen)
     //WS
+
     var connections = [];
     sockets.on('connection', (socket) => {
 
@@ -127,6 +131,7 @@ function routerF(sockets) {
             const result = [] = await chat.obtenerMensaje(data.chatId);
             sockets.emit(`getMsgs${data.chatId}`, result)
         });
+
     })
 
     return router;

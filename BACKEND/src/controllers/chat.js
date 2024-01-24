@@ -14,7 +14,8 @@ const enviarMensaje = async (req, res) => {
         visto: req.body.visto,
         mensajeResp: req.body.mensajeResp,
         fileName: req.body.fileName,
-        url: req.body.url
+        url: req.body.url,
+        mensajeId: randomId
     };
 
     await db.collection('chats').doc(chatId).collection('mensajes').doc(randomId).set(msg).then(() => {
@@ -37,7 +38,20 @@ const obtenerMensaje = async (chatId) => {
     return data;
 }
 
+const seen = (req, res) => {
+    chatId = req.body.chatId;
+    mensajeId = req.body.mensajeId;
+    db.collection('chats').doc(chatId).collection('mensajes').doc(mensajeId).update({
+        visto: true
+    }).then(() => {
+        res.sendStatus(200)
+    }).catch(error => {
+        console.log(error);
+    });
+}
+
 module.exports = {
     enviarMensaje,
-    obtenerMensaje
+    obtenerMensaje,
+    seen
 }

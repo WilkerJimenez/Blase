@@ -15,11 +15,18 @@
             <img class="rounded-full w-14" [src]="friend.profilePic" alt="">
             }
             <span class="pl-4">{{friend.displayName}}</span>
+            <span class="p-4">
+                @if (visto === true) {
+                <img class="w-10" src="../../../assets/seen.png" alt="">
+                }@else {
+                <img class="w-10" src="../../../assets/unseen.png" alt="">
+                }
+            </span>
         </div>
     </div>
 
     <!--2-->
-    <div class="p-10 overflow-y-auto w-full h-[83%]">
+    <div class="p-10 overflow-y-auto w-full h-[83%]" #contenedorMensajes [scrollTop]="scrollUltimo">
         @for (msg of message; track $index) {
         <div (dblclick)="replayMsg(msg)" class="w-full grid grid-rows-[max-content_1fr] pb-4">
             <div [ngClass]="{'justify-end' : msg.emisor === userInfo?.uid, 'justify-start' : msg.emisor !== userInfo?.uid}"

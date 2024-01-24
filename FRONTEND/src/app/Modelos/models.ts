@@ -51,7 +51,9 @@ export interface getRequestsModel {
 }
 
 export interface getMessages {
-    chatId: string
+    chatId: string,
+    userId: string,
+    userIdF: string
 }
 
 export interface profileModel {
@@ -70,4 +72,9 @@ export interface sendMessage {
     mensajeResp: any,
     fileName: any,
     url: any
+}
+
+export interface seen {
+    chatId: string,
+    mensajeId: string
 }

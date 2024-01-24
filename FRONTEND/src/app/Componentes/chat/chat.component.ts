@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
-import { getMessages, sendMessage } from 'src/app/Modelos/models';
+import { getMessages, seen, sendMessage } from 'src/app/Modelos/models';
 import { ChatServicesService } from 'src/app/Servicios/ChatServices/chat-services.service';
 import { SocketServicesService } from 'src/app/Servicios/SocketServices/socket-services.service';
 
@@ -16,22 +16,32 @@ import { SocketServicesService } from 'src/app/Servicios/SocketServices/socket-s
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css'
 })
-export class ChatComponent implements OnInit {
-  endpointSendMsg = 'api/enviarMsg'
+export class ChatComponent implements OnInit, AfterViewInit {
+  endpointSendMsg = 'api/enviarMsg';
+  endpointSeen = 'api/seen'
 
   constructor(private chat: ChatServicesService, private datePipe: DatePipe, private socket: SocketServicesService,
     private storage: AngularFireStorage) {
   }
 
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+    }, 100);
+  }
+
   @Input() friend: any;
   @ViewChild('inputFile')
   myInputVariable!: ElementRef;
+  @ViewChild('contenedorMensajes')
+  private contenedorMsgs!: ElementRef;
   userInfo = JSON.parse(localStorage.getItem("usuario") || '{}');
   chatId = '';
   showReplay = false;
   slideDown = false;
   selectedFile = false;
+  visto: boolean = false;
   message: any;
+  lastmsgs: any = null;
   fileDetails: { fileName: string, file: any } = {
     fileName: '',
     file: ''
@@ -50,17 +60,39 @@ export class ChatComponent implements OnInit {
   }
 
   getMessage: getMessages = {
-    chatId: ''
+    chatId: '',
+    userId: this.userInfo.uid,
+    userIdF: ''
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     const result1 = this.userInfo?.uid + this.friend?.uid;
     const result2 = this.friend?.uid + this.userInfo?.uid;
 
     this.chatId = [result1, result2].sort().join('');
     this.newMessage.chatId = this.chatId;
     this.getMessage.chatId = this.chatId;
+    this.getMessage.userIdF = this.friend.uid;
     this.getMessages();
+  }
+
+  async seen() {
+    if (this.lastmsgs === null) { return };
+    if (this.lastmsgs?.visto === true) {
+      this.visto = true;
+    } else if (this.lastmsgs?.visto === false) {
+      if (this.lastmsgs?.emisor !== this.userInfo.uid) {
+        var seenDetails: seen = {
+          chatId: this.chatId,
+          mensajeId: this.lastmsgs?.mensajeId
+        }
+        let result = await this.chat.mensajeVisto(this.endpointSeen, seenDetails);
+        if (result.status === 200) {
+          this.visto = true;
+          this.getMessages();
+        }
+      }
+    }
   }
 
   selectImg(event: any) {
@@ -85,6 +117,18 @@ export class ChatComponent implements OnInit {
     });
   }
 
+  async scrollUltimo() {
+
+    try {
+
+      this.contenedorMsgs.nativeElement.scrollTop = this.contenedorMsgs.nativeElement.scrollHeight;
+
+    } catch (err) {
+      console.log(err);
+    }
+
+  }
+
   async sendMessage() {
     if (this.newMessage.mensaje !== "" || this.fileDetails.file !== '') {
       if (this.fileDetails.file !== '') {
@@ -103,12 +147,12 @@ export class ChatComponent implements OnInit {
         this.fileDetails.fileName = ''
         this.selectedFile = false;
         this.newMessage.mensaje = '';
-        this.newMessage.orden = 0;
         this.newMessage.mensajeResp = null;
         this.newMessage.fileName = null;
         this.newMessage.url = null;
-        this.newMessage.visto = false;
-        this.getMessages();
+        this.visto = false;
+        await this.getMessages();
+        this.scrollUltimo();
       }
     }
   }
@@ -136,9 +180,11 @@ export class ChatComponent implements OnInit {
     }, 50);
   }
 
-  getMessages() {
-    this.socket.getMessages(this.getMessage).subscribe(change => {
+  async getMessages() {
+    await this.socket.getMessages(this.getMessage).subscribe(change => {
       this.message = change;
+      this.lastmsgs = this.message[this.message?.length - 1];
     })
   }
+
 }

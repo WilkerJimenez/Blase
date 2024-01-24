@@ -300,6 +300,36 @@
           }
         }
       }
+    },
+    "/seen": {
+      "post": {
+        "summary": "Actualizar Visto",
+        "tags": [
+          "Actualizar Visto"
+        ],
+        "operationId": "seen",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/seenRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {}
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -501,7 +531,7 @@
     "sendMsg": {
       "title": "sendMsg",
       "example": {
-        "chatId": "08c87d64-e7ae-4c5c-b488-17cd3c824129",
+        "chatId": "4qRSS8l3w9Ta3PQ43oPlnOtNnrJ3dsrWvwPRGYNM0EfKDhGU7uW4Kex2dsrWvwPRGYNM0EfKDhGU7uW4Kex24qRSS8l3w9Ta3PQ43oPlnOtNnrJ3",
         "emisor": "dsrWvwPRGYNM0EfKDhGU7uW4Kex2",
         "fecha": "102040",
         "mensaje": "Mensaje",
@@ -509,7 +539,8 @@
         "visto": "false",
         "mensajeResp": "Respuesta",
         "fileName": "Documento",
-        "url": "url"
+        "url": "url",
+        "mensajeId": "oA7eBIqn1fjw9fEN6qZaP9LnPDZEokI_ySum4rK1KFkEjYrVLOWdekisOiR34hPwvJFf0Q1zM1kISTrFeu6ADhEGDaNFFg"
       },
       "type": "object",
       "properties": {
@@ -539,6 +570,9 @@
         },
         "url": {
           "type": "string"
+        },
+        "mensajeId": {
+          "type": "string"
         }
       },
       "required": [
@@ -550,7 +584,28 @@
         "visto",
         "mensajeResp",
         "fileName",
-        "url"
+        "url",
+        "mensajeId"
+      ]
+    },
+    "seenRequest": {
+      "title": "seenRequest",
+      "example": {
+        "chatId": "4qRSS8l3w9Ta3PQ43oPlnOtNnrJ3dsrWvwPRGYNM0EfKDhGU7uW4Kex2dsrWvwPRGYNM0EfKDhGU7uW4Kex24qRSS8l3w9Ta3PQ43oPlnOtNnrJ3",
+        "mensajeId": "73d1e643-4414-4638-baa2-5838912c5bd5"
+      },
+      "type": "object",
+      "properties": {
+        "chatId": {
+          "type": "string"
+        },
+        "mensajeId": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "chatId",
+        "mensajeId"
       ]
     }
   }
