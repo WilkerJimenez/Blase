@@ -24,9 +24,9 @@ export class HomeComponent implements OnInit {
   navigationVar = "";
   isShown: boolean = false;
   chatReady: boolean = true;
-  userId = JSON.parse(localStorage.getItem("usuario") || '{}');
+  userInfo = JSON.parse(localStorage.getItem("usuario") || '{}');
   getFriend: getFriendModel = {
-    userId: this.userId?.uid,
+    userId: this.userInfo?.uid,
     userIdF: '',
   };
 
@@ -36,7 +36,6 @@ export class HomeComponent implements OnInit {
   @Input() sendFriend: any;
 
   constructor(private home: HomeServicesService, private socket: SocketServicesService, private log: LoginServicesService) {
-    this.getFriends();
   }
 
   getFriends() {
@@ -46,6 +45,8 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.socket.connectHome(this.userInfo?.uid);
+    this.getFriends();
   }
 
   onMenuClickSearch(item: string) {
@@ -56,7 +57,7 @@ export class HomeComponent implements OnInit {
     if (this.navigationVar === 'chat') {
       this.chatReady = false;
     }
-    
+
     this.sendFriend = friend;
     this.navigationVar = 'chat'
     setTimeout(() => {

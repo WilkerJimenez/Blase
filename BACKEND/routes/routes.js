@@ -57,7 +57,6 @@ function routerF(sockets) {
 
     var connections = [];
     sockets.on('connection', (socket) => {
-
         socket.on('disconnect', (data) => {
             connections.forEach(connection => {
                 var cont = 0;
@@ -68,6 +67,37 @@ function routerF(sockets) {
             })
         });
 
+        socket.on('connectingHome', (data) => {
+            const conValues = {
+                socketId: socket.id,
+                userId: data
+            }
+            if (connections.length === 0) {
+                connections.push(conValues);
+            } else {
+                connections.forEach(connection => {
+                    if (connection.userId !== data) {
+                        connections.push(conValues);
+                    }
+                })
+            }
+        })
+
+        socket.on('connectingChat', async (data) => {
+            let result = await chat.lastmsgs(data.chatId);
+            if (result !== null) {
+                if (result.visto === true) {
+                    sockets.emit(`seen${data.chatId}`, true)
+                } else if (result.emisor !== data.userId) {
+                    console.log("si")
+                    await chat.seen(data.chatId);
+                    sockets.emit(`seen${data.chatId}`, true)
+                }
+            } else {
+                sockets.emit(`seen${data.chatId}`, false)
+            }
+        })
+
         socket.on('getFriends', async (data) => {
             if (data.userIdF !== '') {
                 const result = await home.getFriendsDB(data.userId);
@@ -75,23 +105,6 @@ function routerF(sockets) {
                 sockets.emit(`getFriends${data.userId}`, result)
                 sockets.emit(`getFriends${data.userIdF}`, resultF)
             } else {
-                if (connections.length === 0) {
-                    const conValues = {
-                        socketId: socket.id,
-                        userId: data.userId
-                    }
-                    connections.push(conValues);
-                } else {
-                    connections.forEach(connection => {
-                        if (connection.userId !== data.userId) {
-                            const conValues = {
-                                socketId: socket.id,
-                                userId: data.userId
-                            }
-                            connections.push(conValues);
-                        }
-                    })
-                }
                 const result = await home.getFriendsDB(data.userId);
                 sockets.emit(`getFriends${data.userId}`, result)
             }

@@ -1,11 +1,11 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { v4 as uuidv4 } from 'uuid';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
-import { getMessages, seen, sendMessage } from 'src/app/Modelos/models';
+import { connectChat, getMessages, seen, sendMessage } from 'src/app/Modelos/models';
 import { ChatServicesService } from 'src/app/Servicios/ChatServices/chat-services.service';
 import { SocketServicesService } from 'src/app/Servicios/SocketServices/socket-services.service';
 
@@ -16,37 +16,26 @@ import { SocketServicesService } from 'src/app/Servicios/SocketServices/socket-s
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css'
 })
-export class ChatComponent implements OnInit, AfterViewInit {
-  endpointSendMsg = 'api/enviarMsg';
-  endpointSeen = 'api/seen'
-
-  constructor(private chat: ChatServicesService, private datePipe: DatePipe, private socket: SocketServicesService,
-    private storage: AngularFireStorage) {
-  }
-
-  ngAfterViewInit(): void {
-    setTimeout(() => {
-    }, 100);
-  }
-
+export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() friend: any;
   @ViewChild('inputFile')
   myInputVariable!: ElementRef;
   @ViewChild('contenedorMensajes')
   private contenedorMsgs!: ElementRef;
+  endpointSendMsg = 'api/enviarMsg';
+  endpointSeen = 'api/seen'
   userInfo = JSON.parse(localStorage.getItem("usuario") || '{}');
   chatId = '';
   showReplay = false;
   slideDown = false;
   selectedFile = false;
-  visto: boolean = false;
+  visto: any = false;
   message: any;
   lastmsgs: any = null;
   fileDetails: { fileName: string, file: any } = {
     fileName: '',
     file: ''
   };
-
   newMessage: sendMessage = {
     chatId: '',
     emisor: this.userInfo?.uid,
@@ -58,11 +47,26 @@ export class ChatComponent implements OnInit, AfterViewInit {
     fileName: null,
     url: null
   }
-
+  connectChat: connectChat = {
+    chatId: '',
+    userId: this.userInfo.uid
+  }
   getMessage: getMessages = {
     chatId: '',
-    userId: this.userInfo.uid,
-    userIdF: ''
+    userId: this.userInfo.uid
+  }
+
+  constructor(private chat: ChatServicesService, private datePipe: DatePipe, private socket: SocketServicesService,
+    private storage: AngularFireStorage) {
+  }
+
+  ngOnDestroy(): void {
+    //this.socket.disconnectChat(this.connectChat);
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+    }, 100);
   }
 
   async ngOnInit(): Promise<void> {
@@ -72,27 +76,15 @@ export class ChatComponent implements OnInit, AfterViewInit {
     this.chatId = [result1, result2].sort().join('');
     this.newMessage.chatId = this.chatId;
     this.getMessage.chatId = this.chatId;
-    this.getMessage.userIdF = this.friend.uid;
+    this.connectChat.chatId = this.chatId;
+    this.connect();
     this.getMessages();
   }
 
-  async seen() {
-    if (this.lastmsgs === null) { return };
-    if (this.lastmsgs?.visto === true) {
-      this.visto = true;
-    } else if (this.lastmsgs?.visto === false) {
-      if (this.lastmsgs?.emisor !== this.userInfo.uid) {
-        var seenDetails: seen = {
-          chatId: this.chatId,
-          mensajeId: this.lastmsgs?.mensajeId
-        }
-        let result = await this.chat.mensajeVisto(this.endpointSeen, seenDetails);
-        if (result.status === 200) {
-          this.visto = true;
-          this.getMessages();
-        }
-      }
-    }
+  async connect() {
+    await this.socket.connectChat(this.connectChat).subscribe(change => {
+      this.visto = change;
+    })
   }
 
   selectImg(event: any) {
@@ -118,15 +110,11 @@ export class ChatComponent implements OnInit, AfterViewInit {
   }
 
   async scrollUltimo() {
-
     try {
-
       this.contenedorMsgs.nativeElement.scrollTop = this.contenedorMsgs.nativeElement.scrollHeight;
-
     } catch (err) {
       console.log(err);
     }
-
   }
 
   async sendMessage() {

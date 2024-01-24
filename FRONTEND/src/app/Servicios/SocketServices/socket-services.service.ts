@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as socketIo from 'socket.io-client';
 import { Observable } from 'rxjs';
-import { getFriendModel, getMessages, getRequestsModel, searchModel, updateFriend } from '../../Modelos/models'
+import { connectChat, connectHome, getFriendModel, getMessages, getRequestsModel, searchModel, updateFriend } from '../../Modelos/models'
 
 @Injectable({
   providedIn: 'root'
@@ -53,6 +53,32 @@ export class SocketServicesService {
     })
   }
 
+  connectHome(body: connectHome) {
+    this.socket.on('connect', () => {
+    })
+    this.socket.emit('connectingHome', body);
+  }
+
+  connectChat(body: connectChat) {
+    return new Observable(subscribe => {
+      this.socket.on('connect', () => {
+      })
+      this.socket.emit('connectingChat', body);
+      this.socket.on(`seen${body.chatId}`, data => {
+        subscribe.next(data);
+      })
+    })
+  }
+
+  /*
+  disconnectChat(body: connectChat) {
+    return new Observable(subscribe => {
+      this.socket.on('connect', () => {
+      })
+      this.socket.emit('disconnectingChat', body);
+    })
+  }
+  */
 
   getMessages(body: getMessages) {
     return new Observable(subscribe => {

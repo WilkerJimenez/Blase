@@ -52,8 +52,16 @@ export interface getRequestsModel {
 
 export interface getMessages {
     chatId: string,
-    userId: string,
-    userIdF: string
+    userId: string
+}
+
+export interface connectHome {
+    userId: string
+}
+
+export interface connectChat {
+    chatId: string,
+    userId: string
 }
 
 export interface profileModel {

@@ -25,6 +25,7 @@ export class PerfilComponent implements OnInit {
   userName = this.userInfo?.displayName;
   clickedImg = false;
   displayImg: any;
+  bigImage: any;
   newImg: any;
   storageRef: any;
   file: any;
@@ -48,6 +49,7 @@ export class PerfilComponent implements OnInit {
         const biggerResolution = "s400-c";
         const original = "s96-c";
         this.displayImg = this.userImg?.replace(original, biggerResolution)
+        this.bigImage = this.userImg?.replace(original, biggerResolution);
       } else {
         this.displayImg = this.userImg
       }
@@ -65,7 +67,7 @@ export class PerfilComponent implements OnInit {
 
   closeSelector() {
     this.myInputVariable.nativeElement.value = "";
-    this.displayImg = this.userInfo?.photoURL;
+    this.displayImg = this.bigImage;
     this.clickedImg = false;
   }
 

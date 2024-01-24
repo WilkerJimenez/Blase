@@ -27,7 +27,7 @@ const enviarMensaje = async (req, res) => {
 
 const obtenerMensaje = async (chatId) => {
     var data = [];
-    await db.collection('chats').doc(chatId).collection('mensajes').orderBy("orden", "asc").get().then(msgs => {
+    await db.collection('chats').doc(chatId).collection('mensajes').orderBy("orden", "asc").limit(25).get().then(msgs => {
         msgs.forEach(doc => {
             data.push(doc.data())
         })
@@ -38,20 +38,33 @@ const obtenerMensaje = async (chatId) => {
     return data;
 }
 
-const seen = (req, res) => {
-    chatId = req.body.chatId;
-    mensajeId = req.body.mensajeId;
-    db.collection('chats').doc(chatId).collection('mensajes').doc(mensajeId).update({
-        visto: true
-    }).then(() => {
-        res.sendStatus(200)
+const lastmsgs = async (chatId) => {
+    var data = null;
+    await db.collection('chats').doc(chatId).collection('mensajes').orderBy("orden", "asc").limit(1).get().then(result => {
+        if (result.docs[0]) {
+            data = result.docs[0].data();
+        }
     }).catch(error => {
         console.log(error);
     });
+
+    return data;
+}
+
+const seen = (chatId) => {
+    db.collection('chats').doc(chatId).collection('mensajes').orderBy("orden", "asc").limit(1).get().then(result => {
+        result.docs[0].ref.update({
+            visto: true
+        });
+    }).catch(error => {
+        console.log(error);
+    });
+    return 200;
 }
 
 module.exports = {
     enviarMensaje,
     obtenerMensaje,
-    seen
+    seen,
+    lastmsgs
 }
