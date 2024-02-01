@@ -10,13 +10,15 @@
             <div>
                 <span class="text-base font-text font-semibold">Nombre de usuario </span>
                 <span class="text-base font-text font-bold text-red-600">*</span>
-                <input [(ngModel)]="regis.userName" class="w-full border p-1 hover:border-b-[#68cccc] rounded focus:border-b-[#68cccc] duration-200"
+                <input [(ngModel)]="regis.userName"
+                    class="w-full border p-1 hover:border-b-[#68cccc] rounded focus:border-b-[#68cccc] duration-200"
                     type="text" required name="userName" id="">
             </div>
             <div>
                 <span class="text-base font-text font-semibold">Correo electronico </span>
                 <span class="text-base font-text font-bold text-red-600">*</span>
-                <input [(ngModel)]="regis.email" class="w-full border p-1 hover:border-b-[#68cccc] rounded focus:border-b-[#68cccc] duration-200"
+                <input [(ngModel)]="regis.email"
+                    class="w-full border p-1 hover:border-b-[#68cccc] rounded focus:border-b-[#68cccc] duration-200"
                     type="email" name="email" required id="">
             </div>
             <div class="grid grid-cols-2 gap-4">
@@ -37,6 +39,8 @@
             </div>
             @if (errorMsg) {
             <span class="font-normal text-base text-[#ea4335]">{{errorMsg}}</span>
+            }@else if(successMsg){
+            <span class="font-normal text-base text-[#3FDC57]">{{successMsg}}</span>
             }
             <div class="grid grid-cols-2 w-25 items-center justify-items-center font-textShow">
                 <a (click)="hideRegis()" class="text-[#959494] opacity-50 hover:opacity-100 duration-200"

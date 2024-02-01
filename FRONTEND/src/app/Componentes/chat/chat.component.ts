@@ -46,15 +46,15 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     mensajeResp: null,
     fileName: null,
     url: null
-  }
+  };
   connectChat: connectChat = {
     chatId: '',
     userId: this.userInfo.uid
-  }
+  };
   getMessage: getMessages = {
     chatId: '',
     userId: this.userInfo.uid
-  }
+  };
 
   constructor(private chat: ChatServicesService, private datePipe: DatePipe, private socket: SocketServicesService,
     private storage: AngularFireStorage) {

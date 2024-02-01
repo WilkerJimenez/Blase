@@ -17,6 +17,7 @@ export class RegistrarComponent {
   constructor(private reg: RegisServicesService, private log: LoginServicesService) { }
 
   errorMsg = "";
+  successMsg = "";
   regis: regisModel = {
     userName: '',
     email: '',
@@ -57,10 +58,10 @@ export class RegistrarComponent {
         profilePic: 'https://empty.com'
       }
 
-      await this.reg.regisUserF(this.endpointF, userF)
+      //await this.reg.regisUserF(this.endpointF, userF)
 
-      localStorage.setItem('usuario', JSON.stringify(result.body?.user));
-      this.router.navigate(['/home']);
+      this.successMsg = "Verificacion de email enviada."
+
     } else if (result?.status === 409) {
       this.errorMsg = "El usuario ya existe";
     } else if (result?.status === 502) {

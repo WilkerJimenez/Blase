@@ -89,7 +89,6 @@ function routerF(sockets) {
                 if (result.visto === true) {
                     sockets.emit(`seen${data.chatId}`, true)
                 } else if (result.emisor !== data.userId) {
-                    console.log("si")
                     await chat.seen(data.chatId);
                     sockets.emit(`seen${data.chatId}`, true)
                 }

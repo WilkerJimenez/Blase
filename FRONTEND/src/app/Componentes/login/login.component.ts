@@ -35,6 +35,8 @@ export class LoginComponent {
     if (result?.status === 200) {
       localStorage.setItem("usuario", JSON.stringify(result.body?.user));
       this.router.navigate(['/home']);
+    } else if (result?.status === 301) {
+      this.errorMsg = "Email no verificado."
     } else if (result?.status === 400) {
       this.errorMsg = "El usuario no existe."
     } else if (result?.status === 502) {

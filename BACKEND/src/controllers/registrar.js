@@ -10,8 +10,8 @@ const registrar = async (req, res) => {
         password: req.body.password,
         profilePic: req.body.profilePic
     }
+    let credentials;
 
-    console.log(user)
     await auth.createUserWithEmailAndPassword(auth.getAuth(), user.email, user.password)
         .then(async (userCredentials) => {
             await auth.updateProfile(auth.getAuth().currentUser, {
@@ -20,29 +20,46 @@ const registrar = async (req, res) => {
             }).catch(error => {
                 console.log(error)
             })
-            res.send(userCredentials)
+            credentials = userCredentials.user;
+            await auth.sendEmailVerification(userCredentials.user);
+            res.sendStatus(200)
+        }).then(async () => {
+            await regisDb(credentials);
         }).catch(error => {
             if (error.code === "auth/email-already-in-use") {
                 res.sendStatus(409);
             } else {
-                res.sendStatus(error);
+                console.log(error);
             }
         });
 }
 
+const regisDb = async (user) => {
+    const userInfo = {
+        displayName: user.displayName,
+        email: user.email,
+        uid: user.uid,
+        profilePic: user.photoURL,
+    }
+    await db.collection('usuarios').doc(userInfo.uid).set(userInfo)
+        .catch(error => {
+            console.log(error)
+        });
+}
+
 const registrarToDb = async (req, res) => {
-    const user = {
+    const userInfo = {
         displayName: req.body.userName,
         email: req.body.email,
         uid: req.body.uid,
         profilePic: req.body.profilePic,
     }
-
-    await db.collection('usuarios').doc(user.uid).set(user)
+    await db.collection('usuarios').doc(userInfo.uid).set(userInfo)
         .then(() => {
-            res.sendStatus(200)
-        }).catch(error => {
-            res.send(error)
+            res.sendStatus(200);
+        })
+        .catch(error => {
+            console.log(error)
         });
 }
 
