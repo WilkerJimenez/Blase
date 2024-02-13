@@ -1,15 +1,15 @@
-<div class="contenedor flex justify-center grid grid-cols-2 min-h-screen bg-[#FAF4F5]">
-    <div class="relative flex justify-center items-center px-4">
+<div class="contenedor flex justify-center md:grid md:grid-cols-2 min-h-screen bg-[#FAF4F5]">
+    <div class="hidden relative md:flex justify-center items-center px-4">
         <img class="" src="../../assets/loginImg.svg">
         <p class="p-20 absolute bottom-0 text-end font-textShow text-4xl font-bold text-[#636aff] uppercase">
             ¡Conectate con gente alrededor del mundo!</p>
     </div>
-    <div class="bg-[#fff] flex justify-center border-l-2 items-center">
-        <div class="w-96">
+    <div class="p-10 md:p-4 bg-[#fff] flex justify-center md:border-l-2 items-center">
+        <div class="w-full md:w-96">
             @if (loginShow === true) {
-                <login (emitterLog)="hide($event)"></login>
+            <login (emitterLog)="hide($event)"></login>
             }@else {
-                <registrar (emitterReg)="hide($event)"></registrar>
+            <registrar (emitterReg)="hide($event)"></registrar>
             }
         </div>
     </div>

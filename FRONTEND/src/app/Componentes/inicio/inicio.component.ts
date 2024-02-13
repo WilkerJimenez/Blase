@@ -24,6 +24,20 @@ export class InicioComponent {
     btn?.style.setProperty('--x', x + 'px');
     btn?.style.setProperty('--y', y + 'px');
   }
+  @HostListener('window:scroll', ['$event'])
+  scrollHandler(event: any) {
+    let section = document.querySelectorAll('section');
+    const trigger = window.innerHeight  / 2 * 1;
+
+    section.forEach(sec => {
+      const secTop = sec.getBoundingClientRect().top;
+      if (secTop < trigger) {
+        sec.classList.add('animate-fadeIn');
+      } else {
+        sec.classList.remove('animate-fadeIn');
+      }
+    })
+  }
 
   onClick() {
     this.router.navigate(['/auth'])

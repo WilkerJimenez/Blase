@@ -1,6 +1,6 @@
 <div
     class="h-screen overflow-hidden 2xl:max-w-screen-xl 2xl:flex 2xl:justify-center 2xl:items-center bg-[#130821] text-[#fff] text-lg font-text">
-    <div class="grid grid-cols-2 grid-flow-col w-full h-full">
+    <div class="grid grid-cols-[max-content_1fr] grid-flow-col w-full h-full">
         <div class="col-span-2 w-full h-full">
             @if (navigationVar === "search") {
             <search [friends]="friends"></search>
@@ -15,20 +15,20 @@
             <perfil [friends]="friends"></perfil>
             }@else{
             <div class="relative w-full h-full">
-                <div class="absolute bottom-40 right-96">
+                <div class="absolute bottom-40 -left-20 sm:right-96">
                     <div class="absolute rounded-full bg-[#301c3c] p-28"></div>
                 </div>
-                <div class="absolute top-52 right-96">
+                <div class="absolute bottom-72 right-28 sm:right-96">
                     <div class="absolute rounded-full bg-[#301c3c] p-10"></div>
                 </div>
-                <div class="absolute top-10 left-96">
+                <div class="absolute top-10 sm:left-96">
                     <div class="absolute rounded-full bg-[#301c3c] p-20"></div>
                 </div>
                 <div class="flex justify-center items-center h-full">
-                    <p class="text-4xl uppercase font-bold font-textShow">Recorre el mundo con Blase
+                    <p class="text-xl px-4 text-center sm:text-2xl md:text-4xl uppercase font-bold font-textShow">Recorre el mundo con Blase
                     </p>
                 </div>
-                <div class="absolute inset-y-96 -left-20">
+                <div class="hidden sm:block absolute inset-y-96 -left-20">
                     <img style="width: 600px; height: 400px;" src="../../../assets/spaceLeft.svg">
                 </div>
             </div>

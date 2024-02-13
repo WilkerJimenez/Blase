@@ -22,6 +22,7 @@ export class SearchComponent implements OnInit {
   @Input() friends: any;
   requests: any[] = [];
   notFound = true;
+  responsive = true;
   users: any;
 
   srch: searchModel = {
@@ -121,6 +122,35 @@ export class SearchComponent implements OnInit {
       this.getRequests(this.getR);
       this.toast.success("Se ha aceptado la solicitud", "Blase", { timeOut: 2000 })
     }
+  }
+
+
+  responsiveMenu() {
+    let body = document.getElementById('body');
+    let navegation = document.getElementById('solicitudes');
+    let btn = document.getElementById('menuBtn');
+    if (this.responsive === true) {
+      body?.classList.add("fixed")
+      navegation?.classList.remove("animate-rightSlideOut")
+      btn?.classList.remove("-rotate-0")
+      navegation?.classList.remove("hidden")
+      btn?.classList.add("-rotate-90")
+      navegation?.classList.add("animate-rightSlide")
+      this.responsive = false;
+      console.log("si")
+    } else {
+      navegation?.classList.add("animate-rightSlideOut")
+      setTimeout(() => {
+        navegation?.classList.add("hidden")
+        body?.classList.remove("fixed")
+      }, 100);
+      btn?.classList.remove("-rotate-90")
+      btn?.classList.add("-rotate-0")
+      this.responsive = true;
+      console.log("no")
+    }
+    
+    navegation?.classList.add("md:hidden")
   }
 
 }

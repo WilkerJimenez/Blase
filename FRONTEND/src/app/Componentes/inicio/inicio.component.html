@@ -1,18 +1,18 @@
-<div class="pageBody h-full bg-[#FAF4F5]">
+<div class=" pageBody h-full bg-[#FAF4F5]">
     <nav class="flex p-10 justify-end justify-between px-6 sm:px-10 w-full">
         <div class="">
             <img class="hover:-translate-y-1 duration-200 w-16" style="cursor: pointer;" src="../../assets/blase.png"
                 alt="">
         </div>
         <div class="flex items-center" style="cursor: pointer;">
-            <button (mousemove)="onMouseMove($event)" (click)="onClick()"
-                class="mouse-cursor-gradient-tracking hover:-translate-y-1 duration-200 rounded-full uppercase px-10 p-2 text-center text-sm font-bold text-[#fff] font-text">
+            <button (mousemove)="onMouseMove($event)" (click)="onClick()" class="mouse-cursor-gradient-tracking hover:-translate-y-1 duration-200 rounded-full uppercase px-6 sm:px-10 p-2 
+                text-center text-sm font-bold text-[#fff] font-text">
                 <span>Iniciar sesion</span>
             </button>
         </div>
     </nav>
 
-    <section class="contenedor z-20 p-2 items-center sm:p-4 lg:p-10 h-96 flex justify-center lg:min-h-screen lg:block">
+    <div class="contenedor z-20 p-2 items-center sm:p-4 lg:p-10 h-96 flex justify-center lg:min-h-screen lg:block">
 
         <div class="absolute rounded-full bg-[#e6e6e6] p-40 sm:top-96 top-40 right-0 sm:right-28 z-10"></div>
         <div class="hidden absolute rounded-full bg-[#e6e6e6] p-28 sm:block sm:top-10 top-40 left-28 sm:left-28 z-10">
@@ -25,19 +25,22 @@
             </div>
             <div class="z-50">
                 <div class="font-textShow flex justify-center text-8xl text-[#636aff] font-bold">Blase</div>
-                <div class="text-lg font-bold flex justify-center text-[#606062] font-text">Lorem ipsum dolor, sit amet
-                    consectetur
-                    adipisicing elit. Sequi ea nam perspiciatis odio saepe, incidunt unde nemo, ullam ipsa laborum
-                    dolor! Fugiat quia quod fuga, reiciendis in nisi doloremque exercitationem.</div>
+                <div class="text-lg font-bold sm:flex sm:justify-center text-center text-[#606062] font-text">
+                    Blase es una plataforma de mensajeria en la que podras contactar con personas en cualquier parte del
+                    planeta,
+                    discutir sobre tus gustos, enviar memes, ¡y pasar un buen rato!
+                </div>
                 <div>
 
                 </div>
             </div>
         </div>
-    </section>
-    <section class="contenedor z-20 p-2 pt-72 items-center sm:pt-48 pb-72 h-full flex justify-center">
-        <div class="p-2 md:flex">
-            <div class="font-textShow pb-8 md:pb-0 flex justify-center items-center text-2xl text-[#606062] font-bold">
+    </div>
+
+    <section class=" z-20 p-2 pt-72 pb-72 items-center sm:pt-48 md:pb-46 h-full flex justify-center">
+        <div class="div p-2 md:flex">
+            <div
+                class="font-textShow pb-8 md:pb-0 flex justify-center items-center text-xl sm:text-2xl text-[#606062] font-bold">
                 <p class="text-center px-4 sm:px-12 md:px-24 lg:px-40"><span class="text-[#636aff] ">Habla</span> con
                     personas de todo el mundo</p>
             </div>
@@ -48,38 +51,41 @@
     </section>
 
 
-    <section class="contenedor z-20 p-2 items-center pb-72 md:pt-72 h-full flex justify-center">
-        <div class="p-2 md:flex">
+    <section class=" z-20 p-2 items-center pb-72 md:pb-46 h-full flex justify-center">
+        <div class="p-2 grid grid-rows-[max-content_1fr] md:flex">
             <div class="flex justify-center">
-                <img class="sm:w-[90%] rounded" src="../../../assets/landing1.PNG" alt="">
+                <img class="sm:w-[90%] rounded" src="../../../assets/landing2.PNG" alt="">
             </div>
-            <div class="font-textShow pb-8 md:pb-0 flex justify-center items-center text-2xl text-[#606062] font-bold">
-                <p class="text-center px-4 sm:px-12 md:px-24 lg:px-40">Habla Entabla <span
-                        class="text-[#636aff] ">relaciones </span>profundas</p>
+            <div
+                class="row-start-1 font-textShow pb-8 md:pb-0 flex justify-center items-center text-xl sm:text-2xl text-[#606062] font-bold">
+                <p class="text-center px-4 sm:px-12 md:px-24 lg:px-40">Entabla <span class="text-[#636aff] ">relaciones
+                    </span>profundas</p>
             </div>
         </div>
     </section>
 
-    <section class="contenedor z-20 p-2 pb-72 pt-10 md:pt-40 items-center h-96 flex justify-center">
+    <section class=" z-20 p-2 pb-72 md:pb-46 items-center h-full flex justify-center">
         <div class="p-2 md:flex">
-            <div class="font-textShow pb-8 md:pb-0 flex justify-center items-center text-2xl text-[#606062] font-bold">
+            <div
+                class="font-textShow pb-8 md:pb-0 flex justify-center items-center text-xl sm:text-2xl text-[#606062] font-bold">
                 <p class="text-center px-4 sm:px-12 md:px-24 lg:px-40">Personaliza tu perfil para que todos te <span
                         class="text-[#636aff] ">conozcan</span> </p>
             </div>
             <div class="flex justify-center">
-                <img class="sm:w-[90%] rounded" src="../../../assets/landing1.PNG" alt="">
+                <img class="sm:w-[90%] rounded" src="../../../assets/landing3.PNG" alt="">
             </div>
         </div>
     </section>
 
-    <section class="contenedor z-20 p-2 pb-72 pt-10 md:pt-40 items-center h-96 flex justify-center">
+    <section class=" z-20 p-2 pb-72 md:pb-46 items-center h-full flex justify-center">
         <div class="p-2">
-            <div class="font-textShow pb-8 flex justify-center items-center text-2xl text-[#606062] font-bold">
-                <p class="text-center px-4 sm:px-12 md:px-24 lg:px-40"><span class="text-[#636aff] ">Habla</span> con
-                    personas de todo el mundo</p>
+            <div
+                class="font-textShow pb-8 flex justify-center items-center text-xl sm:text-2xl text-[#606062] font-bold">
+                <p class="text-center text-[#636aff] px-4 sm:px-12 md:px-24 lg:px-40">¿Listo para
+                    emergerte en este viaje? </p>
             </div>
             <div class="flex justify-center">
-                <img class="sm:w-[90%] rounded" src="../../../assets/landing1.PNG" alt="">
+                <img class="sm:w-[90%]" src="../../../assets/adventure.svg" />
             </div>
         </div>
     </section>

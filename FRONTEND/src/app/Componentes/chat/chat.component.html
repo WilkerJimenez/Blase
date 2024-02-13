@@ -98,7 +98,7 @@
     <div class="flex w-full bg-[#301c3c] h-[9%] p-4">
         <form class="w-full font-text text-lg ">
             <div class="flex flex-nowrap items-stretch relative">
-                <input name="mensaje" [(ngModel)]="newMessage.mensaje"
+                <input name="mensaje" (keydown.enter)="sendMessage()" [(ngModel)]="newMessage.mensaje"
                     class="w-full p-2 border-b rounded-l bg-inherit duration-200" placeholder="Enviar mensaje" required
                     type="text">
 

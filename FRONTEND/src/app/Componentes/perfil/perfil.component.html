@@ -18,57 +18,56 @@
             </span>
             <span class="col-span-2">
                 <svg xmlns="http://www.w3.org/2000/svg" style="cursor: pointer;" fill="currentColor"
-                    class="w-14 bi bi-check2" viewBox="0 0 16 16"
-                    (click)="updateImg()">
+                    class="w-14 bi bi-check2" viewBox="0 0 16 16" (click)="updateImg()">
                     <path
                         d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" />
                 </svg>
             </span>
         </div>
-        <div class="w-96">
+        <div class="w-72 sm:w-96">
             <image-cropper class="rounded-full" [alignImage]="'center'" [roundCropper]="true" [hideResizeSquares]="true"
                 [cropperMinWidth]="400" [cropperMaxWidth]="400" [cropperMinHeight]="400" [cropperMaxHeight]="400"
-                [imageChangedEvent]="userImg"
-                (imageCropped)="crop($event)"
-                [(transform)]="transform"
-                 [maintainAspectRatio]="false" [aspectRatio]="1 / 1" format="png"
-                [resizeToWidth]="400" [resizeToHeight]="400" [aspectRatio]="1/1"></image-cropper>
+                [imageChangedEvent]="userImg" (imageCropped)="crop($event)" [(transform)]="transform"
+                [maintainAspectRatio]="false" [aspectRatio]="1 / 1" format="png" [resizeToWidth]="400"
+                [resizeToHeight]="400" [aspectRatio]="1/1"></image-cropper>
         </div>
     </div>
 </div>
 }
 
-<div class="w-full h-full contenedor font-textShow text-xl">
-    <div class="p-20 text-4xl uppercase tracking-widest	">
-        Perfil
-    </div>
-    <div class="w-full justify-items-center grid grid-cols-2 p-10">
-        <div class="h-full flex items-center">
-            <input #inputFile id="multimedia" (change)="selectImg($event)" style="display: none;" type="file">
-            <div class="">
-                <label for="multimedia" type="button">
-                    @if (userImg === "https://empty.com" || userImg === "") {
-                    <img class="rounded-full w-96" style="cursor: pointer;" src="../../../assets/user.png" alt="">
-                    }@else {
-                    <img class="rounded-full" style="cursor: pointer;" [src]="displayImg" alt="">
-                    }
-                </label>
-            </div>
+<div class="w-full h-full flex items-center contenedor font-textShow text-xl">
+    <div class="w-full">
+        <div class="p-6 text-4xl uppercase tracking-widest	">
+            Perfil
         </div>
-        <div class="flex h-full justify-center items-center">
-            <div class="w-full">
-                <div class="w-full pb-10">
-                    <p class="opacity-50">{{userUid}}</p>
+        <div class="justify-items-center grid grid-rows-[max-content_1fr] md:grid-rows-none md:grid-cols-2 p-4 ">
+            <div class=" flex items-center">
+                <input #inputFile id="multimedia" (change)="selectImg($event)" style="display: none;" type="file">
+                <div class="">
+                    <label for="multimedia" type="button">
+                        @if (userImg === "https://empty.com" || userImg === "") {
+                        <img class="rounded-full w-64 sm:w-72 md:w-96" style="cursor: pointer;" src="../../../assets/user.png" alt="">
+                        }@else {
+                        <img class="rounded-full w-64 sm:w-72 md:w-96" style="cursor: pointer;" [src]="displayImg" alt="">
+                        }
+                    </label>
                 </div>
-                <div class="w-full pb-10">
-                    <input name="friend" [(ngModel)]="prof.displayName"
-                        class="w-full truncate p-2 border-b hover:border-b-[#68cccc] bg-inherit duration-200"
-                        placeholder="{{userName}}" required type="text">
-                </div>
-                <div class="w-full">
-                    <button (click)="onClickUpdate()"
-                        class="w-full uppercase hover:opacity-80 bg-[#382454] duration-200 font-bold p-2 px-6 rounded-sm">Actualizar
-                    </button>
+            </div>
+            <div class="flex justify-center items-center">
+                <div class="w-64">
+                    <div class="pb-10 flex justify-center">
+                        <p class="px-96 text-center opacity-50">{{userUid}}</p>
+                    </div>
+                    <div class="w-64 pb-10 flex justify-center">
+                        <input name="friend" [(ngModel)]="prof.displayName"
+                            class="w-full truncate p-2 border-b hover:border-b-[#68cccc] bg-inherit duration-200"
+                            placeholder="{{userName}}" required type="text">
+                    </div>
+                    <div class="w-64">
+                        <button (click)="onClickUpdate()"
+                            class="w-full uppercase hover:opacity-80 bg-[#382454] duration-200 font-bold p-2 px-6 rounded-sm">Actualizar
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
