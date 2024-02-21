@@ -55,8 +55,8 @@
             </div>
             <div class="flex justify-center items-center">
                 <div class="w-64">
-                    <div class="pb-10 flex justify-center">
-                        <p class="px-96 text-center opacity-50">{{userUid}}</p>
+                    <div class="pb-10 flex justify-center ">
+                        <p [title]="userUid" class="text-center truncate md:whitespace-normal opacity-50">{{userUid}}</p>
                     </div>
                     <div class="w-64 pb-10 flex justify-center">
                         <input name="friend" [(ngModel)]="prof.displayName"

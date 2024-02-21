@@ -28,7 +28,7 @@
     <!--2-->
     <div class="p-10 overflow-y-auto w-full h-[83%]" #contenedorMensajes [scrollTop]="scrollUltimo">
         @for (msg of message; track $index) {
-        <div (dblclick)="replayMsg(msg)" class="w-full grid grid-rows-[max-content_1fr] pb-4">
+        <div (click)="replayMsg(msg)" class="w-full grid grid-rows-[max-content_1fr] pb-4">
             <div [ngClass]="{'justify-end' : msg.emisor === userInfo?.uid, 'justify-start' : msg.emisor !== userInfo?.uid}"
                 class="flex max-w-20 ">
                 <div [ngClass]="{'rounded-l-lg' : msg.emisor === userInfo?.uid, 'rounded-r-lg' : msg.emisor !== userInfo?.uid}"

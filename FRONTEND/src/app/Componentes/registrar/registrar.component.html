@@ -37,9 +37,10 @@
                         type="password" required name="passConfirm" id="">
                 </div>
             </div>
-            @if (errorMsg) {
+            @if (errorMsg !== "") {
             <span class="font-normal text-base text-[#ea4335]">{{errorMsg}}</span>
-            }@else if(successMsg){
+            }
+            @if(successMsg !== ""){
             <span class="font-normal text-base text-[#3FDC57]">{{successMsg}}</span>
             }
             <div class="grid grid-cols-2 w-25 items-center justify-items-center font-textShow">

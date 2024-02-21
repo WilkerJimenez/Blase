@@ -28,8 +28,10 @@ const registrar = async (req, res) => {
         }).catch(error => {
             if (error.code === "auth/email-already-in-use") {
                 res.sendStatus(409);
+            } else if (error.code === "auth/weak-password") {
+                res.sendStatus(422);
             } else {
-                console.log(error);
+                res.sendStatus(502);
             }
         });
 }

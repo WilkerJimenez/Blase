@@ -50,21 +50,19 @@ export class RegistrarComponent {
     }
 
     let result = await this.reg.regisUser(this.endpointR, this.regis);
+    console.log(result)
     if (result?.status === 200) {
-      var userF: regisFModel = {
-        userName: this.regis.userName,
-        email: this.regis.email,
-        uid: result.body.user.uid,
-        profilePic: 'https://empty.com'
-      }
-
-      //await this.reg.regisUserF(this.endpointF, userF)
-
+      this.errorMsg = "";
       this.successMsg = "Verificacion de email enviada."
 
     } else if (result?.status === 409) {
+      this.successMsg = ""
       this.errorMsg = "El usuario ya existe";
+    } else if (result?.status === 422) {
+      this.successMsg = ""
+      this.errorMsg = "La contraseña debe tener almenos 6 caracteres";
     } else if (result?.status === 502) {
+      this.successMsg = ""
       this.errorMsg = "Error inesperado";
     }
   }

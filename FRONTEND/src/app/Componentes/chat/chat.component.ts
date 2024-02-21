@@ -24,6 +24,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   private contenedorMsgs!: ElementRef;
   endpointSendMsg = 'api/enviarMsg';
   endpointSeen = 'api/seen'
+  touchtime = 0;
   userInfo = JSON.parse(localStorage.getItem("usuario") || '{}');
   chatId = '';
   showReplay = false;
@@ -150,12 +151,22 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   replayMsg(msg: any) {
-    if (msg.mensaje || msg.mensaje !== "") {
-      this.newMessage.mensajeResp = msg.mensaje;
-      this.showReplay = true;
-    } else if (msg.url) {
-      this.newMessage.mensajeResp = "File";
-      this.showReplay = true;
+    if (this.touchtime == 0) {
+      this.touchtime = new Date().getTime();
+    } else {
+      if (((new Date().getTime()) - this.touchtime) < 800) {
+        // double click occurred
+        if (msg.mensaje || msg.mensaje !== "") {
+          this.newMessage.mensajeResp = msg.mensaje;
+          this.showReplay = true;
+        } else if (msg.url) {
+          this.newMessage.mensajeResp = "File";
+          this.showReplay = true;
+        }
+      } else {
+        // not a double click so set as a new first click
+        this.touchtime = new Date().getTime();
+      }
     }
   }
 

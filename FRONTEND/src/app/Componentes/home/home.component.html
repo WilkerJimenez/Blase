@@ -1,5 +1,5 @@
 <div
-    class="h-screen overflow-hidden 2xl:max-w-screen-xl 2xl:flex 2xl:justify-center 2xl:items-center bg-[#130821] text-[#fff] text-lg font-text">
+    class="h-screen 2xl:h-auto overflow-hidden 2xl:max-w-screen-xl 2xl:max-h-screen-xl 2xl:flex 2xl:justify-center 2xl:flex-col 2xl:mx-auto bg-[#130821] text-[#fff] text-lg font-text">
     <div class="grid grid-cols-[max-content_1fr] grid-flow-col w-full h-full">
         <div class="col-span-2 w-full h-full">
             @if (navigationVar === "search") {
@@ -25,11 +25,12 @@
                     <div class="absolute rounded-full bg-[#301c3c] p-20"></div>
                 </div>
                 <div class="flex justify-center items-center h-full">
-                    <p class="text-xl px-4 text-center sm:text-2xl md:text-4xl uppercase font-bold font-textShow">Recorre el mundo con Blase
+                    <p class="text-xl px-4 text-center sm:text-2xl md:text-4xl uppercase font-bold font-textShow">
+                        Recorre el mundo con Blase
                     </p>
                 </div>
-                <div class="hidden sm:block absolute inset-y-96 -left-20">
-                    <img style="width: 600px; height: 400px;" src="../../../assets/spaceLeft.svg">
+                <div class="hidden sm:block relative ">
+                    <img class="absolute bottom-0" style="width: 600px; height: 400px;" src="../../../assets/spaceLeft.svg">
                 </div>
             </div>
             }
@@ -70,11 +71,15 @@
                     <img style="cursor: pointer;" src="../../../assets/blaselogoClear.png" alt="">
                 </div>
                 @if (isShown) {
-                <div class="bottom-10 right-10 w-20 contextMenu absolute rounded bg-[#fff]">
-                    <ul class="w-full font-text text-lg font-bold text-[#000]">
-                        <li class="p-1 rounded hover:bg-[#ccc]" style="cursor: pointer;" (click)="profile()">
-                            Perfil</li>
-                        <li class="p-1 rounded hover:bg-[#ccc]" (click)="logout()" style="cursor: pointer;">Salir</li>
+                <div class=" relative">
+                    <ul
+                        class="bottom-10   right-10 w-20 2xl:right-10 w-20 absolute font-text text-lg font-bold text-[#000]">
+                        <div class="contextMenu p-4 rounded bg-[#fff]">
+                            <li class="p-1 rounded hover:bg-[#ccc]" style="cursor: pointer;" (click)="profile()">
+                                Perfil</li>
+                            <li class="p-1 rounded hover:bg-[#ccc]" (click)="logout()" style="cursor: pointer;">Salir
+                            </li>
+                        </div>
                     </ul>
                 </div>
                 }
