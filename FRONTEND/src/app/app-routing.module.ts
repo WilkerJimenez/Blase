@@ -9,8 +9,8 @@ import { HomeComponent } from './Componentes/home/home.component';
 
 const routes: Routes = [
   { path: '', component: InicioComponent },
-  { path: 'auth', component: AuthContainerComponent, /*canActivate: [loggedInGuardGuard]*/ },
-  { path: 'home', component: HomeComponent, /*canActivate: [homeAuthGuardGuard]*/ },];
+  { path: 'auth', component: AuthContainerComponent, canActivate: [loggedInGuardGuard] },
+  { path: 'home', component: HomeComponent, canActivate: [homeAuthGuardGuard] },];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
